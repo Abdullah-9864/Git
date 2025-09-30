@@ -1,0 +1,26 @@
+h4 
+{
+    color: #1b3cd2;
+    font-size: 40px;
+    text-align: center;
+    margin-top: 20px;
+    font-family: garamond
+}
+a
+{
+    color:#125A25;
+    text-align:left;
+    font-family: monospace
+}
+a:hover
+{
+    color: red; /* changes color when you hover */
+    text-decoration: underline;
+}
+p 
+{
+    font-size: 18px;
+    color: #333;
+    line-height: 1.6;
+    font-family: garamond;
+}

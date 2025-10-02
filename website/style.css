@@ -1,11 +1,8 @@
-/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
-/* General */
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;

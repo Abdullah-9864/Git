@@ -3,6 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
@@ -46,6 +54,7 @@ nav ul li a.active {
 }
 
 main {
+  flex: 1;
   padding: 2rem;
 }
 
@@ -84,6 +93,7 @@ main {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .form-box button:hover {
@@ -102,13 +112,16 @@ main {
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
 }
+
 .product-card:hover {
   transform: translateY(-10px) scale(1.05);
   background-color: #f0f4ff;
   color: #222;
   box-shadow: 0 10px 25px rgba(0,0,0,0.2);
 }
+
 footer {
   background: #0073e6;
   color: #fff;
@@ -116,3 +129,4 @@ footer {
   padding: 1rem;
   margin-top: 2rem;
 }
+

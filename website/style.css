@@ -103,7 +103,12 @@ main {
   text-align: center;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
-
+.product-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  background-color: #f0f4ff;
+  color: #222;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
 footer {
   background: #0073e6;
   color: #fff;

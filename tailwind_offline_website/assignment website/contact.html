@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Website - Contact Us</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <header class="bg-blue-600 text-white shadow-lg">
+    <div class="container mx-auto px-4 py-6">
+      <h1 class="text-3xl font-bold text-center">Contact Us</h1>
+      <nav class="mt-4">
+        <ul class="flex flex-wrap justify-center space-x-6">
+          <li><a href="index.html" class="hover:bg-blue-700 px-4 py-2 rounded-lg transition duration-300">Home</a></li>
+          <li><a href="registration.html" class="hover:bg-blue-700 px-4 py-2 rounded-lg transition duration-300">Registration</a></li>
+          <li><a href="products.html" class="hover:bg-blue-700 px-4 py-2 rounded-lg transition duration-300">Products</a></li>
+          <li><a href="contact.html" class="bg-blue-700 px-4 py-2 rounded-lg font-semibold">Contact Us</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <section>
+        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Get in Touch</h2>
+        <form action="#" method="post" class="bg-white rounded-xl shadow-lg p-8">
+          <div class="mb-6">
+            <label for="cname" class="block text-gray-700 font-semibold mb-2">Full Name:</label>
+            <input type="text" id="cname" name="cname" required 
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          
+          <div class="mb-6">
+            <label for="cemail" class="block text-gray-700 font-semibold mb-2">Email Address:</label>
+            <input type="email" id="cemail" name="cemail" required 
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+          </div>
+          
+          <div class="mb-6">
+            <label for="message" class="block text-gray-700 font-semibold mb-2">Message:</label>
+            <textarea id="message" name="message" rows="4" required 
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+          </div>
+          
+          <button type="submit" 
+                  class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+            Send Message
+          </button>
+        </form>
+      </section>
+
+      <section class="bg-white rounded-xl shadow-lg p-8">
+        <h3 class="text-2xl font-bold text-gray-800 mb-6">Contact Information</h3>
+        <div class="space-y-4">
+          <p class="flex items-center text-gray-700">
+            <span class="font-semibold">Email:</span>
+            <span class="ml-2">info@ourbusiness.com</span>
+          </p>
+          <p class="flex items-center text-gray-700">
+            <span class="font-semibold">Phone:</span>
+            <span class="ml-2">+123-456-7890</span>
+          </p>
+          <p class="flex items-start text-gray-700">
+            <span class="font-semibold">Location:</span>
+            <span class="ml-2">123 Business Street,<br>City, Country</span>
+          </p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4 text-center">
+      <p>&copy; 2025 Our Business. All Rights Reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

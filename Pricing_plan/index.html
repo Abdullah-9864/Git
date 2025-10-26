@@ -4,17 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>pricing table</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <h1>Our pricing plans</h1>
-    <div>
-        <div>
-            <h3>Basic</h3>
-            <h4>100GB</h4>
+<body class="bg-purple-200 flex items-center justify-center min-h-screen" >
+    <div class="flex flex-col md:flex-row  gap-8 text-center">
+        <div class="bg-gray-100 text-green-600 rounded-2xl p-5 w-64 border border-green-600">
+            <h3 class="text-sm text-gray-40 mb-4 font-bold">BASIC</h3>
+            <h4 class="text-4xl mb-2 font-bold">100 GB</h4>
             <p>$3.39/month</p>
-            <button>purcahse</button>
+            <button class="mt-3 border border-green-200 bg-gray-300 rounded-2xl px-2  mb-6 hover:bg-green-200 transition">purcahse</button>
+            <ul class="text-sm space-y-2 ">
+                <li>100GB of storage</li>
+                <li>Options to add members</li>
+                <li>Extra member benefits</li>
+            </ul>
+        </div>
+
+        <div class="bg-gray-100 text-green-600 rounded-2xl p-5 w-64 border border-green-600">
+            <h3 class="text-sm text-gray-40 mb-4 font-bold">STANDARD</h3>
+            <h4 class="text-4xl mb-2 font-bold">200 GB</h4>
+            <p>$3.99/month</p>
+            <button class="mt-3 border border-green-200 bg-gray-300 rounded-2xl px-2  mb-6 hover:bg-green-200 transition">Purchase</button>
+            <ul class="text-sm space-y-2">
+                <li>200GB of storage</li>
+                <li>Options to add members</li>
+                <li>Extra member benefits</li>
+            </ul>
+        </div>
+
+        <div class="bg-gray-100 text-green-600 rounded-2xl p-5 w-64 border border-green-600">
+            <h4 class="text-sm text-gray-40 mb-4 font-bold">PREMIUM</h4>
+            <h3 class="text-4xl mb-2 font-bold">2 TB</h3>
+            <p>$8.99/month</p>
+            <button class="mt-3 border border-green-200 bg-gray-300 rounded-2xl px-2  mb-6 hover:bg-green-200 transition">Purchase</button>
+            <ul class="text-sm space-y-2">
+                <li>2TB of storage</li>
+                <li>Options to add members</li>
+                <li>Extra member benefits</li>
+            </ul>
+            
         </div>
     </div>
-    
+
 </body>
 </html>

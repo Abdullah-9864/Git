@@ -14,25 +14,28 @@
 #       string""")
 
 
-def password_check():
-      correct_password="python3"
-      attempts=6
+# def password_check():
+#       correct_password="python3"
+#       attempts=6
       
-      while attempts >0:
-            password= input("Enter the password: ").strip()
+#       while attempts >0:
+#             password= input("Enter the password: ").strip()
             
-            if password=="":
-                  continue
+#             if password=="":
+#                   continue
             
-            if password== correct_password:
-                  print("correct password")
-                  break
-            else:
-                  attempts-=1
-                  print("wrong password entered")
+#             if password== correct_password:
+#                   print("correct password")
+#                   break
+#             else:
+#                   attempts-=1
+#                   print("wrong password entered")
                   
-                  if attempts==0:
-                        print("attempts exceeded")
+#                   if attempts==0:
+#                         print("attempts exceeded")
                         
                   
-password_check()     
+# password_check() 
+
+
+print("span"*3)    

@@ -68,5 +68,5 @@ ft = np.fft.fft(signal)
 print(ft)
 
 
-hello asad how are 
+hello asad how are u
 

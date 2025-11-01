@@ -38,4 +38,32 @@
 # password_check() 
 
 
-print("span"*3)    
+# print("span "*3)
+# print(4*"span ")
+
+# import numpy as np
+# data=[1,2,3,4,5,6,7,8]
+# print(np.mean(data))
+# print(2-1)
+# print(2+1)
+# print(2**5)
+# print(-7//2)
+
+#string, tuple and list
+
+# a1 = "1, 2, 3"
+# print(a1)
+# print(type(a1[0]))
+# print(a1[0])
+
+# nums=[1,2,3]
+# print(nums+[4,5,6])
+# print(nums*3)
+
+
+
+import numpy as np
+signal = np.array([1, 2, 3, 4])
+ft = np.fft.fft(signal)
+print(ft)
+

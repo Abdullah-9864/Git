@@ -11,5 +11,9 @@ import random
 print(random.randrange(1,10))
 a="hello"
 print(a)
+b="""hello world
+this is the line character"""
+print(b)
+
     
     

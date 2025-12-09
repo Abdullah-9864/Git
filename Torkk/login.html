@@ -6,26 +6,67 @@
     <link href="https://fonts.google.com/share?selection.family=Bebas+Neue|Open+Sans:ital,wght@0,300..800;1,300..800" rel="stylesheet">
     <title>Torkk</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
-<body>
-    <header class="px-10 pt-2 flex flex-col">
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+    <header class="px-10 pt-2 flex flex-col w-full">
     
         <div class="flex justify-between items-center">
-        <nav class="flex gap-4">
-            <a href="#" class="text-black font-semibold hover:underline underline-offset-4">New</a>
-            <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Lease</a>
-            <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Used</a>
-            <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Electric</a>
-            <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Vans</a>
-            <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Sell</a>
-            <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Reviews</a>
-            <a href="#" class="text-black font-semibold hover:underline underline-offset-4">News</a>
-        </nav>
+            <nav class="flex gap-4">
+                <a href="#" class="text-black font-semibold hover:underline underline-offset-4">New</a>
+                <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Lease</a>
+                <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Used</a>
+                <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Electric</a>
+                <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Vans</a>
+                <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Sell</a>
+                <a href="#" class="text-black font-semibold hover:underline underline-offset-4">Reviews</a>
+                <a href="#" class="text-black font-semibold hover:underline underline-offset-4">News</a>
+            </nav>
         </div>
         <div class="pt-4 px-4">
-            <h1 class="text-black text-5xl font-bold mt-4" style="font-family:sans-serif">Torkk</h1>
+            <h1 class="text-black text-5xl font-bold mt-4" style="font-family:sans-serif">tOrkk</h1>
         </div>
     </header>
+
+    <div class="w-full flex justify-center mt-10">
+        <div class="w-full max-w-sm p-4 bg-white rounded-lg shadow-xl">
+
+            <h1 class="text-center font-extrabold text-2xl mb-6 text-gray-800">
+                Login to your account
+            </h1>
+
+            <div class="bg-red-100 text-red-700 p-3 px-4 rounded-lg text-sm mb-4 border border-red-300">
+                <span class="font-semibold">Uh-oh!</span> You need to sign in or sign up before continuing.
+            </div>
+
+            <div class="bg-blue-600 text-white p-2.5 rounded-lg w-full mb-6 cursor-pointer transition-all duration-200 hover:bg-blue-700 hover:shadow-md hover:scale-[1.01] flex items-center justify-center">
+                <img src="google.svg" alt="Google logo" class="w-5 h-5 bg-white rounded-sm p-0.5 mr-3"/>
+                <button class="font-semibold">Continue with Google</button> 
+            </div> 
+
+            <div class="flex items-center my-4">
+                <div class="flex-grow border-t border-gray-300"></div>
+                <span class="flex-shrink mx-4 text-gray-500 text-sm">or</span>
+                <div class="flex-grow border-t border-gray-300"></div>
+            </div>
+
+            <form action="/login" method="post">
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email address</label>
+                
+                <input 
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    required
+                    placeholder="your.email@example.com"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 mb-4 transition duration-150 ease-in-out"
+                >
+
+                <button type="submit" class="w-full bg-gray-800 text-white py-2.5 rounded-lg font-semibold transition-all duration-200 hover:bg-gray-900 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

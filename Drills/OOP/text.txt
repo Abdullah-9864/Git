@@ -1,0 +1,35 @@
+#include <iostream>
+using namespace std;
+
+// Class encapsulates data and functions together
+class BankAccount {
+    int balance;  // Data inside class
+    
+public:
+    BankAccount(int bal) {
+        balance = bal;
+    }
+    
+    void deposit(int amount) {
+        balance += amount;
+    }
+    
+    void withdraw(int amount) {
+        balance -= amount;
+    }
+    
+    void display() {
+        cout << "Balance: " << balance << endl;
+    }
+};
+
+int main() {
+    BankAccount account(1000);  // Create object
+    
+    account.display();      // Balance: 1000
+    account.deposit(500);
+    account.display();      // Balance: 1500
+    account.withdraw(200);
+    account.display();      // Balance: 1300
+    return 0;
+}

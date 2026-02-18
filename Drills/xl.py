@@ -4,7 +4,7 @@ import pandas as pd
 # CONFIGURATION
 # ==========================
 
-input_file = "tb.xlsx"   # weekly file
+input_file = "C:\\Git\\Drills\\tb.xlsx"   # weekly file
 degree_section = "BSIT-6th-M2"               # student input
 output_file = "Filtered_Timetable.xlsx"
 

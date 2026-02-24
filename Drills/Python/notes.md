@@ -21,3 +21,14 @@ Bytecode is not machine code. It's a Python-specific interpretation that is then
 
 Mutable can be changed
 immutable cannot be changed
+
+
+
+Machine Learning (ML): Algorithms that detect patterns in large datasets to make decisions or predictions without explicit programming.
+Deep Learning (DL): A specialized subset of ML utilizing multi-layered artificial neural networks to model complex patterns, crucial for image and speech recognition.
+Natural Language Processing (NLP): Enables computers to understand, interpret, and generate human language.
+Computer Vision: Allows machines to interpret and analyze visual information from the world, such as images and videos.
+Generative AI: Focuses on creating new content, including text, images, and code, based on training data.
+Robotics: Combines AI with physical engineering to create machines capable of performing tasks in the physical world.
+Expert Systems: Programs that emulate the decision-making ability of a human expert in specific domains like medicine or finance.
+Speech Recognition: Converts spoken language into text or commands.

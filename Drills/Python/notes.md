@@ -16,5 +16,8 @@ Bytecode is not machine code. It's a Python-specific interpretation that is then
 
 
 
- git config --global user.email "abdullahshahid9864@gmail.com"
-  git config --global user.name "Abdullah Shahid"
+
+
+
+Mutable can be changed
+immutable cannot be changed

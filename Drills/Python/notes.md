@@ -16,11 +16,10 @@ Bytecode is not machine code. It's a Python-specific interpretation that is then
 
 
 
-
-
-
 Mutable can be changed
 immutable cannot be changed
+
+
 
 
 
@@ -32,3 +31,22 @@ Generative AI: Focuses on creating new content, including text, images, and code
 Robotics: Combines AI with physical engineering to create machines capable of performing tasks in the physical world.
 Expert Systems: Programs that emulate the decision-making ability of a human expert in specific domains like medicine or finance.
 Speech Recognition: Converts spoken language into text or commands.
+
+
+
+
+| **Phase 1: Foundation** | **"Unlocking Python" by Ryan Mitchell (Book)**  | A fun, practical guide covering fundamentals through to data science and web scraping. Great for building a solid, broad base. | Wiley Publishing  |
+| **Phase 1: Foundation** | **MIT's Python Learning Guide**  | Uses simple exercises (like parsing a text file) to teach core concepts like loops, dictionaries, and classes. Excellent for hands-on practice. | MIT Wikis  |
+| **Phase 1: Foundation** | **Yahoo Tech's Python Basics Guide**  | A straightforward tutorial for complete beginners. Covers installation, your first "Hello, World!" program, and basic syntax. | Yahoo Tech  |
+| **Phase 2: Standard Library** | **"Python Standard Library Essential Training"**  | A course focused entirely on leveraging built-in modules for common tasks like working with files, data, and dates. | Johns Hopkins University  |
+| **Phase 2: Standard Library** | **"Use the Standard Library" Video Course (6 hours)**  | A comprehensive video course from Packt that dives deep into key modules like `os`, `datetime`, `math`, `sys`, and `random`. | O'Reilly / Packt  |
+| **Phase 3: Advanced Concepts** | **"Advanced Python and Professional Development"**  | A Coursera course for those with a solid grasp of basics. It covers OOP in depth, generator functions, and professional tools like VS Code debugging. | Coursera  |
+| **Phase 3: Advanced Concepts** | **University of Chicago: Advanced Python Programming**  | A formal university course syllabus covering "power-user" features (decorators, context managers), async programming, and performance. | UChicago CS  |
+| **Phase 4: Professional Ecosystem** | **Liquid Web's Guide to PyPI & PIP**  | A practical guide explaining how to use `pip` and the Python Package Index (PyPI) to install and manage third-party libraries. | Liquid Web  |
+| **Phase 4: Professional Ecosystem** | **GitHub: PyPI Explained**  | A technical, step-by-step guide on how to create and upload your *own* packages to PyPI. This is a fantastic way to understand modules from the inside out. | GitHub  |
+
+### 💡 How to Use This List
+Think of this as your personalized curriculum. You don't have to do everything at once.
+- **Start with Phase 1** resources to build your confidence.
+- When you hit a topic in the roadmap (like "working with `datetime`"), jump to a **Phase 2** resource for a deep dive.
+- Use the **Phase 4** guides as soon as you start a project that requires an external library (like `requests` for web scraping).

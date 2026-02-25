@@ -15,4 +15,9 @@
 text="this is random text"
 print(text[0:2])
 
+for c in "chai":
+    print(c)
+
+
+
 

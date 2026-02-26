@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Countdown Timer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #1e1e2e;
+      --accent: #e8ff47;
+      --accent2: #ff6b35;
+      --text: #f0f0f0;
+      --muted: #555570;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Subtle grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 20px;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    header {
+      text-align: center;
+    }
+
+    header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      line-height: 1;
+      text-shadow: 0 0 40px rgba(232,255,71,0.3);
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* Clock display */
+    .clock {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .time-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .digits {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 15vw, 7rem);
+      line-height: 1;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 24px;
+      min-width: 120px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.2s;
+    }
+
+    .digits::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0; right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .time-unit.active .digits {
+      color: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 30px rgba(232,255,71,0.15);
+    }
+
+    .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .separator {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 10vw, 5rem);
+      color: var(--muted);
+      line-height: 1;
+      margin-bottom: 28px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    /* Input area */
+    .input-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .input-group label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .input-group input {
+      width: 80px;
+      padding: 10px 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      text-align: center;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 16px rgba(232,255,71,0.1);
+    }
+
+    .input-group input::-webkit-inner-spin-button,
+    .input-group input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    .colon {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* Buttons */
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 28px;
+      cursor: pointer;
+      transition: transform 0.1s, box-shadow 0.2s, opacity 0.2s;
+    }
+
+    button:active { transform: scale(0.97); }
+
+    .btn-start {
+      background: var(--accent);
+      color: #0a0a0f;
+    }
+
+    .btn-start:hover { box-shadow: 0 0 24px rgba(232,255,71,0.4); }
+
+    .btn-pause {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-pause:hover { background: rgba(232,255,71,0.06); }
+
+    .btn-reset {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-reset:hover { border-color: var(--muted); color: var(--text); }
+
+    /* Progress bar */
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      border-radius: 99px;
+      transition: width 1s linear;
+      width: 0%;
+    }
+
+    /* Finished state */
+    .finished-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,15,0.9);
+      z-index: 10;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .finished-overlay.show { display: flex; }
+
+    .finished-overlay h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 12vw, 6rem);
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-shadow: 0 0 60px rgba(232,255,71,0.5);
+      animation: pulse 0.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.04); }
+    }
+
+    .finished-overlay p {
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+    }
+
+    .btn-dismiss {
+      background: var(--accent);
+      color: #0a0a0f;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 32px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .digits { min-width: 85px; padding: 12px 16px; }
+      .clock { gap: 6px; }
+      .separator { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrapper">
+  <header>
+    <h1>COUNTDOWN</h1>
+    <p>Set your timer and go</p>
+  </header>
+
+  <!-- Live Clock -->
+  <div class="clock">
+    <div class="time-unit" id="unit-h">
+      <div class="digits" id="display-h">00</div>
+      <span class="label">Hours</span>
+    </div>
+    <div class="separator">:</div>
+    <div class="time-unit" id="unit-m">
+      <div class="digits" id="display-m">00</div>
+      <span class="label">Mins</span>
+    </div>
+    <div class="separator">:</div>
+    <div class="time-unit" id="unit-s">
+      <div class="digits" id="display-s">00</div>
+      <span class="label">Secs</span>
+    </div>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress"></div>
+  </div>
+
+  <!-- Inputs -->
+  <div class="input-section">
+    <div class="input-row">
+      <div class="input-group">
+        <label>Hours</label>
+        <input type="number" id="inp-h" min="0" max="23" value="0" placeholder="0"/>
+      </div>
+      <div class="colon">:</div>
+      <div class="input-group">
+        <label>Minutes</label>
+        <input type="number" id="inp-m" min="0" max="59" value="5" placeholder="0"/>
+      </div>
+      <div class="colon">:</div>
+      <div class="input-group">
+        <label>Seconds</label>
+        <input type="number" id="inp-s" min="0" max="59" value="0" placeholder="0"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn-start" id="btn-start" onclick="startTimer()">Start</button>
+    <button class="btn-pause" id="btn-pause" onclick="pauseTimer()" style="display:none">Pause</button>
+    <button class="btn-reset" onclick="resetTimer()">Reset</button>
+  </div>
+</div>
+
+<!-- Finished Overlay -->
+<div class="finished-overlay" id="finished">
+  <h2>TIME'S UP!</h2>
+  <p>Your countdown has ended</p>
+  <button class="btn-dismiss" onclick="dismissFinished()">Dismiss</button>
+</div>
+
+<script>
+  let totalSeconds = 0;
+  let remaining = 0;
+  let interval = null;
+  let running = false;
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function updateDisplay(sec) {
+    const h = Math.floor(sec / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    document.getElementById('display-h').textContent = pad(h);
+    document.getElementById('display-m').textContent = pad(m);
+    document.getElementById('display-s').textContent = pad(s);
+
+    // Highlight active (non-zero) unit
+    document.getElementById('unit-h').classList.toggle('active', h > 0);
+    document.getElementById('unit-m').classList.toggle('active', m > 0 && h === 0);
+    document.getElementById('unit-s').classList.toggle('active', h === 0 && m === 0 && s > 0);
+
+    // Progress
+    const pct = totalSeconds > 0 ? ((totalSeconds - sec) / totalSeconds) * 100 : 0;
+    document.getElementById('progress').style.width = pct + '%';
+  }
+
+  function startTimer() {
+    if (running) return;
+
+    if (remaining === 0) {
+      const h = parseInt(document.getElementById('inp-h').value) || 0;
+      const m = parseInt(document.getElementById('inp-m').value) || 0;
+      const s = parseInt(document.getElementById('inp-s').value) || 0;
+      totalSeconds = h * 3600 + m * 60 + s;
+      remaining = totalSeconds;
+      if (remaining <= 0) return;
+    }
+
+    running = true;
+    document.getElementById('btn-start').style.display = 'none';
+    document.getElementById('btn-pause').style.display = 'inline-block';
+
+    interval = setInterval(() => {
+      remaining--;
+      updateDisplay(remaining);
+      if (remaining <= 0) {
+        clearInterval(interval);
+        running = false;
+        showFinished();
+      }
+    }, 1000);
+
+    updateDisplay(remaining);
+  }
+
+  function pauseTimer() {
+    if (!running) return;
+    clearInterval(interval);
+    running = false;
+    document.getElementById('btn-start').style.display = 'inline-block';
+    document.getElementById('btn-start').textContent = 'Resume';
+    document.getElementById('btn-pause').style.display = 'none';
+  }
+
+  function resetTimer() {
+    clearInterval(interval);
+    running = false;
+    remaining = 0;
+    totalSeconds = 0;
+    updateDisplay(0);
+    document.getElementById('btn-start').style.display = 'inline-block';
+    document.getElementById('btn-start').textContent = 'Start';
+    document.getElementById('btn-pause').style.display = 'none';
+    document.getElementById('progress').style.width = '0%';
+  }
+
+  function showFinished() {
+    document.getElementById('finished').classList.add('show');
+    // Try beep
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      [0, 0.3, 0.6].forEach(t => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.frequency.value = 880;
+        gain.gain.setValueAtTime(0.4, ctx.currentTime + t);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + 0.25);
+        osc.start(ctx.currentTime + t);
+        osc.stop(ctx.currentTime + t + 0.3);
+      });
+    } catch(e) {}
+  }
+
+  function dismissFinished() {
+    document.getElementById('finished').classList.remove('show');
+    resetTimer();
+  }
+
+  // Initialize display
+  updateDisplay(0);
+</script>
+</body>
+</html>

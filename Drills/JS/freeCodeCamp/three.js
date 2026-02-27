@@ -7,5 +7,9 @@ console.log(newArray);
 newArray.pop(newArray.len-1); // this will remove the last element of the array which is ["dog","ali"]
 console.log(newArray);
 
+let sym1 = Symbol("JavaScript is fun!");
+let sym2 = Symbol("JavaScript is fun!");
+console.log("These two Symbols are the same:", sym1 === sym2);
+
 
 

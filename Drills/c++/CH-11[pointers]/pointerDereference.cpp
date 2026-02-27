@@ -20,6 +20,6 @@ int main()
 
 }
 
-    // dereference operator is used to access the value stored at the address pointed by the pointer variable. It is denoted by the asterisk (*) symbol. When we declare a pointer variable, we use the asterisk to indicate that it is a pointer. However, when we want to access the value stored at the address pointed by the pointer, we also use the asterisk as a dereference operator.
+    //* dereference operator is used to access the value stored at the address pointed by the pointer variable. It is denoted by the asterisk (*) symbol. When we declare a pointer variable, we use the asterisk to indicate that it is a pointer. However, when we want to access the value stored at the address pointed by the pointer, we also use the asterisk as a dereference operator.
 
 

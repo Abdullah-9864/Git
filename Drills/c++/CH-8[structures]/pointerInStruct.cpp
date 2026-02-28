@@ -1,5 +1,4 @@
-#include<iostream>
-using namespace std;
+
 #include<iostream>
 using namespace std;
 
@@ -30,6 +29,7 @@ int main()
     // Print both nodes
     cout << "Node 1: " << start->data << endl;         // 10
     cout << "Node 2: " << start->link->data << endl;   // 20
-
+    cout<<node1->link<<endl;
+    cout<<start;
     return 0;
 }

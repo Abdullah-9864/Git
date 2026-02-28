@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Data Types</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d1117;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #e6edf3;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 8px;
+      color: #58a6ff;
+      letter-spacing: 0.05em;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #8b949e;
+      margin-bottom: 50px;
+      font-size: 0.9rem;
+    }
+
+    /* TREE */
+    .tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* ROOT */
+    .root {
+      background: linear-gradient(135deg, #58a6ff, #1f6feb);
+      color: #fff;
+      padding: 14px 40px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      box-shadow: 0 0 30px rgba(88,166,255,0.4);
+    }
+
+    /* CONNECTOR LINE DOWN */
+    .line-down {
+      width: 2px;
+      height: 40px;
+      background: #30363d;
+    }
+
+    /* HORIZONTAL CONNECTOR */
+    .h-line {
+      display: flex;
+      align-items: flex-start;
+      position: relative;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .h-line::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 55%;
+      height: 2px;
+      background: #30363d;
+    }
+
+    /* BRANCH */
+    .branches {
+      display: flex;
+      gap: 60px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .branch-line-up {
+      width: 2px;
+      height: 30px;
+      background: #30363d;
+    }
+
+    /* CATEGORY BOXES */
+    .cat-primitive {
+      background: linear-gradient(135deg, #238636, #2ea043);
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(46,160,67,0.3);
+      white-space: nowrap;
+    }
+
+    .cat-nonprimitive {
+      background: linear-gradient(135deg, #9e6a03, #d29922);
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(210,153,34,0.3);
+      white-space: nowrap;
+    }
+
+    /* SUB BRANCHES */
+    .sub-branches {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 0;
+    }
+
+    .sub-branch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* LINEAR / NON-LINEAR */
+    .cat-linear {
+      background: linear-gradient(135deg, #6e40c9, #8957e5);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(137,87,229,0.3);
+      white-space: nowrap;
+    }
+
+    .cat-nonlinear {
+      background: linear-gradient(135deg, #b62324, #f85149);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #fff;
+      box-shadow: 0 0 15px rgba(248,81,73,0.3);
+      white-space: nowrap;
+    }
+
+    /* LEAF ITEMS */
+    .leaves {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .leaf {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: #79c0ff;
+      text-align: center;
+      white-space: nowrap;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .leaf:hover {
+      border-color: #58a6ff;
+      transform: scale(1.04);
+    }
+
+    .leaf.green { color: #56d364; }
+    .leaf.yellow { color: #e3b341; }
+    .leaf.purple { color: #d2a8ff; }
+    .leaf.red { color: #ff7b72; }
+
+    /* PRIMITIVE LEAVES (direct) */
+    .prim-leaves {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 10px;
+      max-width: 280px;
+    }
+
+    /* H connector for sub */
+    .sub-h-line {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .sub-h-line::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 65%;
+      height: 2px;
+      background: #30363d;
+    }
+
+    /* TABLE SECTION */
+    .table-section {
+      margin-top: 60px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .table-section h2 {
+      text-align: center;
+      font-size: 1.3rem;
+      color: #58a6ff;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #161b22;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #30363d;
+    }
+
+    thead tr {
+      background: #1f6feb;
+    }
+
+    th {
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      color: #fff;
+    }
+
+    td {
+      padding: 12px 20px;
+      font-size: 0.85rem;
+      border-top: 1px solid #21262d;
+      vertical-align: top;
+    }
+
+    tr:hover td { background: #1c2128; }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: 'Fira Code', monospace;
+    }
+
+    .tag-green { background: #033a16; color: #56d364; }
+    .tag-yellow { background: #341a00; color: #e3b341; }
+    .tag-purple { background: #2e1065; color: #d2a8ff; }
+    .tag-red { background: #3d0000; color: #ff7b72; }
+    .tag-blue { background: #031d40; color: #79c0ff; }
+
+    .example { color: #8b949e; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+
+<h1>📊 Data Types</h1>
+<p class="subtitle">A complete visual breakdown of all data types</p>
+
+<!-- TREE DIAGRAM -->
+<div class="tree">
+
+  <!-- ROOT -->
+  <div class="root">DATA TYPES</div>
+  <div class="line-down"></div>
+
+  <!-- H LINE -->
+  <div style="width:60%;height:2px;background:#30363d;"></div>
+
+  <!-- PRIMITIVE + NON-PRIMITIVE -->
+  <div class="branches">
+
+    <!-- PRIMITIVE -->
+    <div class="branch">
+      <div class="branch-line-up"></div>
+      <div class="cat-primitive">Primitive</div>
+      <div class="line-down"></div>
+      <div class="prim-leaves">
+        <div class="leaf green">int</div>
+        <div class="leaf green">float</div>
+        <div class="leaf green">double</div>
+        <div class="leaf green">char</div>
+        <div class="leaf green">bool</div>
+        <div class="leaf green">void</div>
+      </div>
+    </div>
+
+    <!-- NON-PRIMITIVE -->
+    <div class="branch">
+      <div class="branch-line-up"></div>
+      <div class="cat-nonprimitive">Non-Primitive</div>
+      <div class="line-down"></div>
+
+      <!-- H LINE FOR LINEAR / NON-LINEAR -->
+      <div style="width:70%;height:2px;background:#30363d;"></div>
+
+      <div class="sub-branches">
+
+        <!-- LINEAR -->
+        <div class="sub-branch">
+          <div class="branch-line-up"></div>
+          <div class="cat-linear">Linear</div>
+          <div class="line-down"></div>
+          <div class="leaves">
+            <div class="leaf purple">Array</div>
+            <div class="leaf purple">Linked List</div>
+            <div class="leaf purple">Stack</div>
+            <div class="leaf purple">Queue</div>
+          </div>
+        </div>
+
+        <!-- NON-LINEAR -->
+        <div class="sub-branch">
+          <div class="branch-line-up"></div>
+          <div class="cat-nonlinear">Non-Linear</div>
+          <div class="line-down"></div>
+          <div class="leaves">
+            <div class="leaf red">Tree</div>
+            <div class="leaf red">Graph</div>
+            <div class="leaf red">Heap</div>
+            <div class="leaf red">Hash Table</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TABLE -->
+<div class="table-section">
+  <h2>📋 Quick Reference Table</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Sub-Type</th>
+        <th>Example</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="tag tag-green">int</span></td>
+        <td>Primitive</td>
+        <td>—</td>
+        <td class="example">int x = 5;</td>
+        <td>Whole numbers</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-green">float</span></td>
+        <td>Primitive</td>
+        <td>—</td>
+        <td class="example">float x = 3.14;</td>
+        <td>Decimal numbers (4 bytes)</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-green">double</span></td>
+        <td>Primitive</td>
+        <td>—</td>
+        <td class="example">double x = 3.14;</td>
+        <td>Decimal numbers (8 bytes)</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-green">char</span></td>
+        <td>Primitive</td>
+        <td>—</td>
+        <td class="example">char c = 'A';</td>
+        <td>Single character</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-green">bool</span></td>
+        <td>Primitive</td>
+        <td>—</td>
+        <td class="example">bool b = true;</td>
+        <td>True or False</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-purple">Array</span></td>
+        <td>Non-Primitive</td>
+        <td><span class="tag tag-purple">Linear</span></td>
+        <td class="example">int arr[5];</td>
+        <td>Fixed size, consecutive memory</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-purple">Linked List</span></td>
+        <td>Non-Primitive</td>
+        <td><span class="tag tag-purple">Linear</span></td>
+        <td class="example">Node* head;</td>
+        <td>Nodes connected by pointers</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-purple">Stack</span></td>
+        <td>Non-Primitive</td>
+        <td><span class="tag tag-purple">Linear</span></td>
+        <td class="example">push / pop</td>
+        <td>Last In First Out (LIFO)</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-purple">Queue</span></td>
+        <td>Non-Primitive</td>
+        <td><span class="tag tag-purple">Linear</span></td>
+        <td class="example">enqueue / dequeue</td>
+        <td>First In First Out (FIFO)</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">Tree</span></td>
+        <td>Non-Primitive</td>
+        <td><span class="tag tag-red">Non-Linear</span></td>
+        <td class="example">root → nodes</td>
+        <td>Hierarchical structure</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">Graph</span></td>
+        <td>Non-Primitive</td>
+        <td><span class="tag tag-red">Non-Linear</span></td>
+        <td class="example">vertices + edges</td>
+        <td>Nodes connected in any way</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">Heap</span></td>
+        <td>Non-Primitive</td>
+        <td><span class="tag tag-red">Non-Linear</span></td>
+        <td class="example">min/max heap</td>
+        <td>Special tree for priority</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">Hash Table</span></td>
+        <td>Non-Primitive</td>
+        <td><span class="tag tag-red">Non-Linear</span></td>
+        <td class="example">key → value</td>
+        <td>Fast lookup using keys</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

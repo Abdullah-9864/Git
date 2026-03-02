@@ -50,3 +50,63 @@ Think of this as your personalized curriculum. You don't have to do everything a
 - **Start with Phase 1** resources to build your confidence.
 - When you hit a topic in the roadmap (like "working with `datetime`"), jump to a **Phase 2** resource for a deep dive.
 - Use the **Phase 4** guides as soon as you start a project that requires an external library (like `requests` for web scraping).
+
+
+
+
+
+pyinstaller
+pyQt5
+
+
+
+
+
+
+
+1. **Stack Memory**
+Characteristics:
+
+Automatic allocation and deallocation
+Fast access
+Limited size (usually 1-8 MB)
+LIFO (Last In First Out) - like a stack of plates
+Memory managed automatically
+
+Used for:
+Local variables
+Function parameters
+Function call information
+
+
+void function() {
+    int x = 10;        // Stack memory
+    char c = 'A';      // Stack memory
+    int arr[5];        // Stack memory
+}  // ← All automatically destroyed here
+
+
+
+
+2. **Heap Memory**
+Characteristics:
+
+
+Manual allocation and deallocation
+Slower than stack
+Large size (limited by system RAM)
+Flexible - you control when to create/destroy
+Must manually free memory (or memory leak!)
+
+Used for:
+Dynamic memory allocation
+Large data structures
+When size is unknown at compile time
+
+void function() {
+    int *ptr = new int;       // Heap memory
+    int *arr = new int[100];  // Heap memory
+    
+    delete ptr;      // ← Must manually delete!
+    delete[] arr;    // ← Must manually delete!
+}

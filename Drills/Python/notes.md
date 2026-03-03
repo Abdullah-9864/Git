@@ -57,6 +57,9 @@ Think of this as your personalized curriculum. You don't have to do everything a
 
 pyinstaller
 pyQt5
+pyPDF2
+pdfplumber
+
 
 
 

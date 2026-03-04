@@ -73,3 +73,11 @@ void loop() {
 
 pip install pyserial
 python keypad_app.py
+
+
+
+192.168.100.64
+
+https://script.google.com/macros/s/AKfycbxEx2dsa5_sfPfKlyF3XnIDcLqEznIZ6BySNnb6qYN5W-tMEM0lS5UFyzskD1ij9b_5zw/exec
+
+AKfycbxEx2dsa5_sfPfKlyF3XnIDcLqEznIZ6BySNnb6qYN5W-tMEM0lS5UFyzskD1ij9b_5zw

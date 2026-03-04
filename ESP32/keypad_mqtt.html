@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESP32 Keypad</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;600;800&display=swap');
+  :root {
+    --bg:#070b0f;--panel:#0d1318;--border:#1a2530;--green:#00ff88;--blue:#00ccff;
+    --orange:#ff8c00;--pink:#ff44aa;--red:#ff3355;--text:#d0e8f0;--muted:#4a6070;
+    --btn:#111820;--btnhov:#1a2530;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 16px;}
+  header{width:100%;max-width:480px;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+  .logo{font-family:'Exo 2',sans-serif;font-weight:800;font-size:18px;}
+  .logo span{color:var(--green);}
+  .dots{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+  .dot-row{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);}
+  .dot-row::before{content:'●';font-size:9px;color:var(--muted);transition:color .3s;}
+  .dot-row.online::before{color:var(--green);}
+  .dot-row.online{color:var(--green);}
+  .dot-row.saved::before{color:var(--green);}
+  .dot-row.saved{color:var(--green);}
+  .dot-row.error::before{color:var(--red);}
+  .dot-row.error{color:var(--red);}
+  .display{width:100%;max-width:480px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 20px 12px;margin-bottom:12px;}
+  .display-label{font-size:9px;color:var(--muted);letter-spacing:2px;margin-bottom:4px;}
+  #display-value{font-size:42px;color:var(--green);text-align:right;min-height:52px;letter-spacing:2px;}
+  .stats{width:100%;max-width:480px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+  .stat-box{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 8px;text-align:center;}
+  .stat-label{font-size:9px;color:var(--muted);letter-spacing:1px;margin-bottom:4px;}
+  .stat-value{font-size:16px;font-weight:bold;}
+  .c-green{color:var(--green);}.c-blue{color:var(--blue);}.c-orange{color:var(--orange);}.c-pink{color:var(--pink);}
+  .keypad{width:100%;max-width:480px;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;}
+  .key-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .key{background:var(--btn);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'Share Tech Mono',monospace;font-size:22px;padding:18px 0;cursor:pointer;transition:background .12s,transform .08s;text-align:center;user-select:none;}
+  .key:hover{background:var(--btnhov);}
+  .key:active{transform:scale(.93);}
+  .key.bksp{color:var(--orange);}
+  .key.send{grid-column:span 2;background:var(--green);color:var(--bg);font-family:'Exo 2',sans-serif;font-weight:700;font-size:15px;}
+  .key.clear-btn{color:var(--red);}
+  .log-box{width:100%;max-width:480px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;}
+  .log-box label{font-size:9px;color:var(--muted);letter-spacing:2px;}
+  #log{height:90px;overflow-y:auto;font-size:11px;color:var(--muted);margin-top:6px;line-height:1.7;}
+  #log .ok{color:var(--green);}#log .err{color:var(--red);}#log .info{color:var(--blue);}
+  .save-bar{width:100%;max-width:480px;display:flex;gap:8px;}
+  #save-btn,#open-sheet-btn{flex:1;border:none;border-radius:8px;padding:12px;font-family:'Exo 2',sans-serif;font-weight:700;font-size:13px;cursor:pointer;}
+  #save-btn{background:var(--blue);color:var(--bg);}
+  #open-sheet-btn{background:var(--btn);color:var(--green);border:1px solid var(--border);text-decoration:none;display:flex;align-items:center;justify-content:center;}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo"><span>ESP32</span> KEYPAD</div>
+  <div class="dots">
+    <div class="dot-row" id="mqtt-dot">MQTT CONNECTING...</div>
+    <div class="dot-row" id="sheets-dot">SHEETS READY</div>
+  </div>
+</header>
+<div class="display">
+  <div class="display-label">INPUT</div>
+  <div id="display-value">0</div>
+</div>
+<div class="stats">
+  <div class="stat-box"><div class="stat-label">COUNT</div><div class="stat-value c-green" id="s-count">—</div></div>
+  <div class="stat-box"><div class="stat-label">SUM</div><div class="stat-value c-blue" id="s-sum">—</div></div>
+  <div class="stat-box"><div class="stat-label">PRODUCT</div><div class="stat-value c-orange" id="s-product">—</div></div>
+  <div class="stat-box"><div class="stat-label">AVG</div><div class="stat-value c-pink" id="s-avg">—</div></div>
+</div>
+<div class="keypad">
+  <div class="key-grid">
+    <div class="key" onclick="press('7')">7</div>
+    <div class="key" onclick="press('8')">8</div>
+    <div class="key" onclick="press('9')">9</div>
+    <div class="key" onclick="press('4')">4</div>
+    <div class="key" onclick="press('5')">5</div>
+    <div class="key" onclick="press('6')">6</div>
+    <div class="key" onclick="press('1')">1</div>
+    <div class="key" onclick="press('2')">2</div>
+    <div class="key" onclick="press('3')">3</div>
+    <div class="key" onclick="press('.')">.</div>
+    <div class="key" onclick="press('0')">0</div>
+    <div class="key bksp" onclick="backspace()">⌫</div>
+    <div class="key clear-btn" onclick="clearAll()">CLEAR</div>
+    <div class="key send" onclick="send()">SEND  →</div>
+  </div>
+</div>
+<div class="log-box">
+  <label>LOG</label>
+  <div id="log"></div>
+</div>
+<div class="save-bar">
+  <button id="save-btn" onclick="downloadCSV()">💾 Download CSV</button>
+  <a id="open-sheet-btn" href="https://docs.google.com/spreadsheets/d/1StZ-3PzYjrAangXVidWQI6EyUgDQhzus39gmQFKlVXs/edit" target="_blank">📊 Open Sheet</a>
+</div>
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxUR0W_91pa4UaxMSXpvbLqMT4BR33K--JALOonZcA71btgRqJf7W0BrZrXAiQCyfIG/exec";
+const SHEET_URL  = "https://docs.google.com/spreadsheets/d/1StZ-3PzYjrAangXVidWQI6EyUgDQhzus39gmQFKlVXs/export?format=csv";
+const TOPIC_INPUT  = "binarymatrix/pump/input";
+const TOPIC_RESULT = "binarymatrix/pump/result";
+const TOPIC_CLEAR  = "binarymatrix/pump/clear";
+
+let input='', mqttReady=false, client=null;
+
+function connectMQTT(){
+  log('Connecting to MQTT broker...','info');
+  client = mqtt.connect('wss://broker.emqx.io:8084/mqtt',{
+    clientId:'html-keypad-'+Math.random().toString(16).substr(2,6),
+    clean:true, reconnectPeriod:3000
+  });
+  client.on('connect',()=>{
+    mqttReady=true; setMQTT(true);
+    log('✅ MQTT Connected! ESP32 can be anywhere.','ok');
+    client.subscribe(TOPIC_RESULT);
+  });
+  client.on('message',(topic,message)=>{
+    if(topic===TOPIC_RESULT){
+      try{
+        const data=JSON.parse(message.toString());
+        if(data.error){log(`ESP32 error: ${data.error}`,'err');return;}
+        if(data.status==='cleared'){log('ESP32 cleared!','ok');return;}
+        updateStats(data);
+        log(`✓ ${data.number} added | Sum:${f(data.sum)} Avg:${f(data.avg)}`,'ok');
+        saveToSheets(data);
+      }catch(e){log(`Parse error: ${e.message}`,'err');}
+    }
+  });
+  client.on('error',e=>{log(`MQTT error: ${e.message}`,'err');setMQTT(false);});
+  client.on('reconnect',()=>{log('Reconnecting...','info');setMQTT(false);});
+  client.on('disconnect',()=>{mqttReady=false;setMQTT(false);});
+}
+
+function setMQTT(on){
+  const d=document.getElementById('mqtt-dot');
+  d.textContent=on?'MQTT CONNECTED':'MQTT DISCONNECTED';
+  d.className='dot-row '+(on?'online':'error');
+}
+
+function updateDisplay(){document.getElementById('display-value').textContent=input||'0';}
+function press(k){if(k==='.'&&input.includes('.'))return;input+=k;updateDisplay();}
+function backspace(){input=input.slice(0,-1);updateDisplay();}
+
+function send(){
+  if(!input){log('Nothing to send!','err');return;}
+  if(!mqttReady){log('MQTT not connected yet!','err');return;}
+  const num=parseFloat(input);
+  client.publish(TOPIC_INPUT,JSON.stringify({number:num}));
+  log(`📤 Sent ${num} to ESP32...`,'info');
+  input='';updateDisplay();
+}
+
+function clearAll(){
+  input='';updateDisplay();
+  ['s-count','s-sum','s-product','s-avg'].forEach(id=>document.getElementById(id).textContent='—');
+  if(mqttReady)client.publish(TOPIC_CLEAR,'clear');
+  log('Clear sent.','info');
+}
+
+async function saveToSheets(data){
+  const dot=document.getElementById('sheets-dot');
+  dot.textContent='SAVING...';dot.className='dot-row';
+  const params=new URLSearchParams({
+    timestamp:new Date().toLocaleString(),
+    number:data.number,sum:f(data.sum),product:f(data.product),avg:f(data.avg)
+  });
+  try{
+    await fetch(`${SCRIPT_URL}?${params.toString()}`);
+    dot.textContent='SHEET SAVED ✓';dot.className='dot-row saved';
+    log('✓ Saved to Google Sheets!','ok');
+  }catch(e){
+    dot.textContent='SHEET FAILED';dot.className='dot-row error';
+    log(`Sheets error: ${e.message}`,'err');
+  }
+}
+
+function downloadCSV(){
+  const a=document.createElement('a');
+  a.href=SHEET_URL;
+  a.download=`esp32_data_${new Date().toISOString().slice(0,10)}.csv`;
+  a.target='_blank';a.click();
+  log('CSV download started!','ok');
+}
+
+function f(n){return parseFloat(n).toFixed(2);}
+function updateStats(d){
+  document.getElementById('s-count').textContent=d.count;
+  document.getElementById('s-sum').textContent=f(d.sum);
+  document.getElementById('s-product').textContent=f(d.product);
+  document.getElementById('s-avg').textContent=f(d.avg);
+}
+function log(msg,type=''){
+  const box=document.getElementById('log');
+  box.innerHTML+=`<div class="${type}">[${new Date().toLocaleTimeString()}] ${msg}</div>`;
+  box.scrollTop=box.scrollHeight;
+}
+document.addEventListener('keydown',e=>{
+  if(e.key>='0'&&e.key<='9')press(e.key);
+  else if(e.key==='.')press('.');
+  else if(e.key==='Backspace')backspace();
+  else if(e.key==='Enter')send();
+});
+
+connectMQTT();
+</script>
+</body>
+</html>

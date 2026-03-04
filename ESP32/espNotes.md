@@ -227,3 +227,137 @@ void setup() {
 void loop() {
   server.handleClient();
 }
+
+
+
+## MQTT(Message Queuing Telemetry Transport) setup
+
+// ─── ESP32 MQTT Calculator - SSL FIX (port 8883) ─────────────────────────────
+#define MQTT_MAX_PACKET_SIZE 512
+
+#include <WiFi.h>
+#include <WiFiClientSecure.h>   // ← SSL client
+#include <PubSubClient.h>
+#include <ArduinoJson.h>
+
+// ─── WIFI ─────────────────────────────────────────────────────────────────────
+const char* WIFI_SSID     = "BinaryMatrix";
+const char* WIFI_PASSWORD = "Rehnedo@8day";
+
+// ─── MQTT ─────────────────────────────────────────────────────────────────────
+const char* MQTT_BROKER = "broker.emqx.io";
+const int   MQTT_PORT   = 8883;             // ← SSL port
+
+// ─── TOPICS ───────────────────────────────────────────────────────────────────
+const char* TOPIC_INPUT  = "binarymatrix/pump/input";
+const char* TOPIC_RESULT = "binarymatrix/pump/result";
+const char* TOPIC_CLEAR  = "binarymatrix/pump/clear";
+
+// ─── DATA ─────────────────────────────────────────────────────────────────────
+float numbers[100];
+int   count   = 0;
+float sum     = 0;
+float product = 1;
+
+WiFiClientSecure wifiClient;              // ← secure client
+PubSubClient     mqtt(wifiClient);
+
+// ─── CALLBACK ─────────────────────────────────────────────────────────────────
+void onMessage(char* topic, byte* payload, unsigned int length) {
+  String msg = "";
+  for (int i = 0; i < length; i++) msg += (char)payload[i];
+  Serial.println("Received: " + msg);
+
+  if (String(topic) == TOPIC_CLEAR) {
+    count = 0; sum = 0; product = 1;
+    mqtt.publish(TOPIC_RESULT, "{\"status\":\"cleared\"}");
+    Serial.println("Cleared!");
+    return;
+  }
+
+  if (String(topic) == TOPIC_INPUT) {
+    StaticJsonDocument<128> req;
+    DeserializationError err = deserializeJson(req, msg);
+    if (err) { Serial.println("JSON error!"); return; }
+
+    float num = req["number"].as<float>();
+    if (count >= 100) {
+      mqtt.publish(TOPIC_RESULT, "{\"error\":\"Memory full\"}");
+      return;
+    }
+
+    numbers[count++] = num;
+    sum     += num;
+    product *= num;
+    float avg = sum / count;
+
+    StaticJsonDocument<256> res;
+    res["number"]  = num;
+    res["count"]   = count;
+    res["sum"]     = sum;
+    res["product"] = product;
+    res["avg"]     = avg;
+
+    String out;
+    serializeJson(res, out);
+    mqtt.publish(TOPIC_RESULT, out.c_str());
+    Serial.printf("OK num:%.2f sum:%.2f avg:%.2f\n", num, sum, avg);
+  }
+}
+
+// ─── WIFI ─────────────────────────────────────────────────────────────────────
+void connectWiFi() {
+  Serial.print("Connecting WiFi");
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  int tries = 0;
+  while (WiFi.status() != WL_CONNECTED && tries < 20) {
+    delay(500); Serial.print("."); tries++;
+  }
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nWiFi OK! IP: " + WiFi.localIP().toString());
+  } else {
+    Serial.println("\nWiFi FAILED!");
+  }
+}
+
+// ─── MQTT ─────────────────────────────────────────────────────────────────────
+void connectMQTT() {
+  wifiClient.setInsecure();               // ← skip certificate, just encrypt
+  mqtt.setServer(MQTT_BROKER, MQTT_PORT);
+  mqtt.setCallback(onMessage);
+  mqtt.setKeepAlive(60);
+  mqtt.setSocketTimeout(15);
+
+  int tries = 0;
+  while (!mqtt.connected() && tries < 5) {
+    tries++;
+    String clientId = "ESP32Pump" + String(random(1000, 9999));
+    Serial.print("MQTT attempt " + String(tries) + "...");
+    if (mqtt.connect(clientId.c_str())) {
+      Serial.println("MQTT Connected!");
+      mqtt.subscribe(TOPIC_INPUT);
+      mqtt.subscribe(TOPIC_CLEAR);
+      Serial.println("Ready! Waiting for numbers...");
+    } else {
+      Serial.printf("Failed rc=%d retrying...\n", mqtt.state());
+      delay(3000);
+    }
+  }
+}
+
+// ─── SETUP ────────────────────────────────────────────────────────────────────
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+  Serial.println("ESP32 MQTT Starting...");
+  connectWiFi();
+  if (WiFi.status() == WL_CONNECTED) connectMQTT();
+}
+
+// ─── LOOP ─────────────────────────────────────────────────────────────────────
+void loop() {
+  if (WiFi.status() != WL_CONNECTED) connectWiFi();
+  if (!mqtt.connected()) connectMQTT();
+  mqtt.loop();
+}

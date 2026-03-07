@@ -1,8 +1,0 @@
-Timestamp,Temperature (°C),Humidity (%),Light (lux),Alerts
-2026-03-07 07:20:14,24.43,61.03,683.51,None
-2026-03-07 07:20:17,38.02,69.08,825.39, TEMP ALERT!  Temperature 38.02°C exceeds 35.0°C |   LIGHT ALERT!  Light 825.39 lux exceeds 800.0 lux
-2026-03-07 07:20:20,44.69,70.63,108.83, TEMP ALERT!  Temperature 44.69°C exceeds 35.0°C |  HUMIDITY ALERT!  Humidity 70.63% exceeds 70.0%
-2026-03-07 07:20:24,32.34,53.78,612.9,None
-2026-03-07 07:20:27,39.5,38.84,216.75, TEMP ALERT!  Temperature 39.5°C exceeds 35.0°C
-2026-03-07 07:20:30,29.81,59.37,327.7,None
-2026-03-07 07:20:33,40.56,35.69,352.36, TEMP ALERT!  Temperature 40.56°C exceeds 35.0°C

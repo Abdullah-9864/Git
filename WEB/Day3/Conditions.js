@@ -84,6 +84,8 @@ console.log(age??0);
 
 
 
+// nullish coalesing operator (??) returns the right-hand operand when the left-hand operand is null or undefined, otherwise it returns the left-hand operand. In this example, since age is null, the expression age ?? 0 will evaluate to 0.
+
 
 
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day of the Week</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 40px 60px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            font-size: 20px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        #day {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Today is:</h1>
+        <p id="day"></p>   <!-- ✅ This is where the day name appears -->
+    </div>
+
+    <script>
+        let day;
+        switch(new Date().getDay()) {
+            case 0: day = "Sunday";    break;
+            case 1: day = "Monday";    break;
+            case 2: day = "Tuesday";   break;
+            case 3: day = "Wednesday"; break;
+            case 4: day = "Thursday";  break;
+            case 5: day = "Friday";    break;
+            case 6: day = "Saturday";  break;
+            default: day = "Unknown";
+        }
+        document.getElementById("day").innerHTML = day;
+    </script>
+
+</body>
+</html>

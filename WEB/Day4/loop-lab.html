@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loop Lab 🔁</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0e1a;
+      --panel: #0f1628;
+      --border: #1e3a5f;
+      --cyan: #00f5ff;
+      --green: #00ff88;
+      --orange: #ff6b35;
+      --pink: #ff2d78;
+      --yellow: #ffe600;
+      --text: #c8d8e8;
+      --dim: #4a6080;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+      background-image:
+        radial-gradient(ellipse at 20% 20%, rgba(0,245,255,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 80%, rgba(0,255,136,0.04) 0%, transparent 60%);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(28px, 6vw, 52px);
+      font-weight: 900;
+      letter-spacing: 4px;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+    }
+
+    header p {
+      color: var(--dim);
+      font-size: 13px;
+      margin-top: 6px;
+      letter-spacing: 2px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--dim);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 1px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .tab-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+    .tab-btn.active {
+      background: rgba(0,245,255,0.1);
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: 0 0 12px rgba(0,245,255,0.2);
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media(max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 20px;
+    }
+
+    .card h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card h2.cyan  { color: var(--cyan); }
+    .card h2.green { color: var(--green); }
+    .card h2.orange{ color: var(--orange); }
+    .card h2.pink  { color: var(--pink); }
+
+    label {
+      display: block;
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    input[type=number], input[type=text], select {
+      width: 100%;
+      background: #0a0e1a;
+      border: 1px solid var(--border);
+      color: var(--cyan);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus { border-color: var(--cyan); }
+
+    .btn {
+      background: transparent;
+      border: 1px solid;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 2px;
+      padding: 10px 22px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .btn-cyan  { border-color: var(--cyan);   color: var(--cyan);   }
+    .btn-green { border-color: var(--green);  color: var(--green);  }
+    .btn-orange{ border-color: var(--orange); color: var(--orange); }
+    .btn-pink  { border-color: var(--pink);   color: var(--pink);   }
+
+    .btn-cyan:hover   { background: rgba(0,245,255,0.12); box-shadow: 0 0 12px rgba(0,245,255,0.3); }
+    .btn-green:hover  { background: rgba(0,255,136,0.12); box-shadow: 0 0 12px rgba(0,255,136,0.3); }
+    .btn-orange:hover { background: rgba(255,107,53,0.12); box-shadow: 0 0 12px rgba(255,107,53,0.3); }
+    .btn-pink:hover   { background: rgba(255,45,120,0.12); box-shadow: 0 0 12px rgba(255,45,120,0.3); }
+
+    .output-box {
+      background: #050810;
+      border: 1px solid var(--border);
+      padding: 14px;
+      min-height: 120px;
+      font-size: 13px;
+      line-height: 1.8;
+      overflow-y: auto;
+      max-height: 260px;
+      margin-top: 14px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .out-cyan   { color: var(--cyan); }
+    .out-green  { color: var(--green); }
+    .out-orange { color: var(--orange); }
+    .out-pink   { color: var(--pink); }
+    .out-yellow { color: var(--yellow); }
+    .out-dim    { color: var(--dim); }
+    .out-white  { color: #fff; }
+
+    /* Grid visualizer */
+    .grid-viz {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 14px;
+      min-height: 60px;
+    }
+
+    .cell {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+
+    .cell.active-cell  { background: rgba(0,245,255,0.2); border-color: var(--cyan); color: var(--cyan); }
+    .cell.skipped      { background: rgba(255,107,53,0.15); border-color: var(--orange); color: var(--orange); }
+    .cell.broken       { background: rgba(255,45,120,0.15); border-color: var(--pink); color: var(--pink); }
+    .cell.done         { background: rgba(0,255,136,0.1); border-color: var(--green); color: var(--green); }
+
+    /* Multiplication Table */
+    .mul-table {
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+
+    table {
+      border-collapse: collapse;
+      font-size: 12px;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid var(--border);
+      padding: 7px 10px;
+      text-align: center;
+      min-width: 36px;
+    }
+
+    th { color: var(--cyan); background: rgba(0,245,255,0.07); font-family: 'Orbitron', sans-serif; font-size: 10px; }
+    td { color: var(--text); }
+    td.highlight { color: var(--yellow); background: rgba(255,230,0,0.08); }
+
+    /* Number search game */
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 3px;
+      margin-top: 14px;
+    }
+
+    .game-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--panel);
+    }
+
+    .game-cell:hover { border-color: var(--cyan); color: var(--cyan); }
+    .game-cell.found-outer { background: rgba(0,255,136,0.2); border-color: var(--green); color: var(--green); }
+    .game-cell.found-inner { background: rgba(0,245,255,0.2); border-color: var(--cyan); color: var(--cyan); }
+    .game-cell.searched    { background: rgba(255,230,0,0.08); }
+
+    .score-bar {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--dim);
+    }
+
+    .score-bar span { color: var(--green); }
+
+    /* Code snippet */
+    .code-block {
+      background: #050810;
+      border-left: 3px solid var(--cyan);
+      padding: 12px 16px;
+      font-size: 12px;
+      line-height: 1.8;
+      margin-top: 10px;
+      overflow-x: auto;
+    }
+
+    .kw  { color: var(--pink); }
+    .fn  { color: var(--cyan); }
+    .num { color: var(--yellow); }
+    .cmt { color: var(--dim); font-style: italic; }
+    .lbl { color: var(--orange); }
+    .str { color: var(--green); }
+
+    .legend {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      font-size: 11px;
+    }
+
+    .legend-item { display: flex; align-items: center; gap: 5px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    .full-width { grid-column: 1 / -1; }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-key { color: var(--dim); }
+    .stat-val { color: var(--cyan); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>// LOOP LAB</h1>
+  <p>[ INTERACTIVE JAVASCRIPT LOOPS PLAYGROUND ]</p>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('visualizer')">🔁 Loop Visualizer</button>
+  <button class="tab-btn" onclick="switchTab('multitable')">✖️ Multiplication Table</button>
+  <button class="tab-btn" onclick="switchTab('game')">🎮 Number Search Game</button>
+  <button class="tab-btn" onclick="switchTab('patterns')">🔷 Pattern Generator</button>
+</div>
+
+<!-- =================== TAB 1: VISUALIZER =================== -->
+<div id="tab-visualizer" class="tab-content active">
+  <div class="grid-2">
+    <div class="card">
+      <h2 class="cyan">⚙️ CONFIGURE LOOP</h2>
+      <label>Loop Type</label>
+      <select id="loopType">
+        <option value="for">for loop</option>
+        <option value="while">while loop</option>
+        <option value="dowhile">do...while loop</option>
+      </select>
+      <label>Start Value</label>
+      <input type="number" id="startVal" value="1" min="0" max="50"/>
+      <label>End Value</label>
+      <input type="number" id="endVal" value="10" min="1" max="50"/>
+      <label>Special Action</label>
+      <select id="specialAction">
+        <option value="none">None</option>
+        <option value="break">break at number...</option>
+        <option value="continue">continue (skip) at number...</option>
+      </select>
+      <label>At Number</label>
+      <input type="number" id="specialNum" value="5" min="1" max="50"/>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-cyan" onclick="runVisualizer()">▶ RUN LOOP</button>
+        <button class="btn btn-pink" onclick="clearViz()">✕ CLEAR</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="green">📺 LIVE OUTPUT</h2>
+      <div id="vizOutput" class="output-box"><span class="out-dim">// Output will appear here...</span></div>
+      <div class="grid-viz" id="vizGrid"></div>
+      <div class="legend">
+        <div class="legend-item"><div class="dot" style="background:var(--cyan)"></div> <span>Executed</span></div>
+        <div class="legend-item"><div class="dot" style="background:var(--orange)"></div> <span>Skipped (continue)</span></div>
+        <div class="legend-item"><div class="dot" style="background:var(--pink)"></div> <span>Break point</span></div>
+        <div class="legend-item"><div class="dot" style="background:var(--green)"></div> <span>Done</span></div>
+      </div>
+    </div>
+
+    <div class="card full-width">
+      <h2 class="orange">📝 GENERATED CODE</h2>
+      <div id="codeDisplay" class="code-block">
+        <span class="cmt">// Configure the loop above and click RUN to see the generated code</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== TAB 2: MULTIPLICATION TABLE =================== -->
+<div id="tab-multitable" class="tab-content">
+  <div class="grid-2">
+    <div class="card">
+      <h2 class="cyan">✖️ TABLE GENERATOR</h2>
+      <label>Table of Number (1–20)</label>
+      <input type="number" id="tableNum" value="5" min="1" max="20"/>
+      <label>Up to (1–20)</label>
+      <input type="number" id="tableUpTo" value="10" min="1" max="20"/>
+      <label>Skip Multiples of</label>
+      <input type="number" id="tableSkip" value="0" min="0" max="10" placeholder="0 = no skip"/>
+      <label>Break After Row</label>
+      <input type="number" id="tableBreak" value="0" min="0" max="20" placeholder="0 = no break"/>
+      <button class="btn btn-cyan" onclick="runTable()">▶ GENERATE TABLE</button>
+      <div class="code-block" style="margin-top:14px;" id="tableCode">
+        <span class="cmt">// Code will appear here</span>
+      </div>
+    </div>
+    <div class="card">
+      <h2 class="green">📊 OUTPUT</h2>
+      <div id="tableOutput" class="output-box"><span class="out-dim">// Table will appear here...</span></div>
+      <div class="mul-table" id="tableGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== TAB 3: GAME =================== -->
+<div id="tab-game" class="tab-content">
+  <div class="grid-2">
+    <div class="card">
+      <h2 class="pink">🎮 NUMBER SEARCH GAME</h2>
+      <p style="font-size:12px;color:var(--dim);line-height:1.7;margin-bottom:14px;">
+        A labeled loop searches a 10×10 grid for your target number. Watch how <span style="color:var(--orange)">break outer</span> exits BOTH loops instantly when found!
+      </p>
+      <label>Enter Target Number (1–100)</label>
+      <input type="number" id="targetNum" value="42" min="1" max="100"/>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;">
+        <button class="btn btn-pink" onclick="startSearch()">🔍 SEARCH</button>
+        <button class="btn btn-green" onclick="newGame()">🔄 NEW GRID</button>
+      </div>
+      <div class="score-bar">
+        Iterations used: <span id="iterCount">0</span> &nbsp;|&nbsp;
+        Status: <span id="gameStatus" style="color:var(--dim)">Ready</span>
+      </div>
+      <div class="code-block" style="margin-top:14px;">
+<span class="lbl">outer:</span> <span class="kw">for</span>(<span class="kw">let</span> row = <span class="num">0</span>; row &lt; <span class="num">10</span>; row++) {
+  <span class="kw">for</span>(<span class="kw">let</span> col = <span class="num">0</span>; col &lt; <span class="num">10</span>; col++) {
+    <span class="kw">if</span>(grid[row][col] === target) {
+      <span class="kw">break</span> <span class="lbl">outer</span>; <span class="cmt">// exits BOTH loops!</span>
+    }
+  }
+}
+      </div>
+    </div>
+    <div class="card">
+      <h2 class="orange">🗺️ GRID</h2>
+      <div class="game-grid" id="gameGrid"></div>
+      <div id="gameResult" style="margin-top:12px;font-size:12px;color:var(--dim);min-height:40px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== TAB 4: PATTERNS =================== -->
+<div id="tab-patterns" class="tab-content">
+  <div class="grid-2">
+    <div class="card">
+      <h2 class="cyan">🔷 PATTERN BUILDER</h2>
+      <label>Pattern Type</label>
+      <select id="patternType">
+        <option value="triangle">Right Triangle (for loop)</option>
+        <option value="pyramid">Pyramid (nested for)</option>
+        <option value="diamond">Diamond (continue)</option>
+        <option value="checkerboard">Checkerboard (nested + continue)</option>
+        <option value="primes">Prime Numbers (break)</option>
+      </select>
+      <label>Size (rows / limit)</label>
+      <input type="number" id="patternSize" value="7" min="3" max="15"/>
+      <label>Symbol</label>
+      <input type="text" id="patternSym" value="★" maxlength="2"/>
+      <button class="btn btn-cyan" onclick="runPattern()">▶ DRAW PATTERN</button>
+    </div>
+    <div class="card">
+      <h2 class="green">🎨 OUTPUT</h2>
+      <div id="patternOutput" class="output-box" style="font-size:16px;line-height:1.6;letter-spacing:2px;"><span class="out-dim">// Pattern will appear here...</span></div>
+    </div>
+    <div class="card full-width">
+      <h2 class="orange">📝 LOOP CODE USED</h2>
+      <div id="patternCode" class="code-block"><span class="cmt">// Select a pattern and click DRAW</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ========== TABS ==========
+  function switchTab(name) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // ========== TAB 1: VISUALIZER ==========
+  function runVisualizer() {
+    const loopType = document.getElementById('loopType').value;
+    const start = parseInt(document.getElementById('startVal').value);
+    const end = parseInt(document.getElementById('endVal').value);
+    const action = document.getElementById('specialAction').value;
+    const specNum = parseInt(document.getElementById('specialNum').value);
+
+    const output = document.getElementById('vizOutput');
+    const grid = document.getElementById('vizGrid');
+    output.innerHTML = '';
+    grid.innerHTML = '';
+
+    let lines = [];
+    let cells = [];
+
+    // Run the actual logic
+    let i = start;
+    let iterations = 0;
+    const maxIter = 100;
+
+    while(i <= end && iterations < maxIter) {
+      iterations++;
+      const val = i;
+      if(action === 'break' && val === specNum) {
+        cells.push({ val, type: 'broken' });
+        lines.push(`<span class="out-pink">⛔ BREAK at ${val} — loop exits!</span>`);
+        break;
+      } else if(action === 'continue' && val === specNum) {
+        cells.push({ val, type: 'skipped' });
+        lines.push(`<span class="out-orange">⏭️ CONTINUE at ${val} — skipped!</span>`);
+      } else {
+        cells.push({ val, type: 'done' });
+        lines.push(`<span class="out-green">✔ i = ${val}</span>`);
+      }
+      i++;
+    }
+
+    output.innerHTML = lines.join('\n');
+
+    // Animate grid cells
+    cells.forEach((c, idx) => {
+      const el = document.createElement('div');
+      el.className = 'cell';
+      el.textContent = c.val;
+      grid.appendChild(el);
+      setTimeout(() => el.classList.add(c.type === 'done' ? 'active-cell' : c.type), idx * 80);
+    });
+
+    // Show code
+    showVizCode(loopType, start, end, action, specNum);
+  }
+
+  function showVizCode(type, start, end, action, specNum) {
+    const cd = document.getElementById('codeDisplay');
+    let actionCode = '';
+    if(action === 'break') actionCode = `\n    <span class="kw">if</span>(i === <span class="num">${specNum}</span>) { <span class="kw">break</span>; } <span class="cmt">// exits loop</span>`;
+    if(action === 'continue') actionCode = `\n    <span class="kw">if</span>(i === <span class="num">${specNum}</span>) { <span class="kw">continue</span>; } <span class="cmt">// skip this iteration</span>`;
+
+    let code = '';
+    if(type === 'for') {
+      code = `<span class="kw">for</span>(<span class="kw">let</span> i = <span class="num">${start}</span>; i &lt;= <span class="num">${end}</span>; i++) {${actionCode}
+  <span class="fn">console</span>.log(i);
+}`;
+    } else if(type === 'while') {
+      code = `<span class="kw">let</span> i = <span class="num">${start}</span>;
+<span class="kw">while</span>(i &lt;= <span class="num">${end}</span>) {${actionCode}
+  <span class="fn">console</span>.log(i);
+  i++;
+}`;
+    } else {
+      code = `<span class="kw">let</span> i = <span class="num">${start}</span>;
+<span class="kw">do</span> {${actionCode}
+  <span class="fn">console</span>.log(i);
+  i++;
+} <span class="kw">while</span>(i &lt;= <span class="num">${end}</span>);`;
+    }
+    cd.innerHTML = code;
+  }
+
+  function clearViz() {
+    document.getElementById('vizOutput').innerHTML = '<span class="out-dim">// Output will appear here...</span>';
+    document.getElementById('vizGrid').innerHTML = '';
+    document.getElementById('codeDisplay').innerHTML = '<span class="cmt">// Configure the loop above and click RUN</span>';
+  }
+
+  // ========== TAB 2: MULTIPLICATION TABLE ==========
+  function runTable() {
+    const num = parseInt(document.getElementById('tableNum').value);
+    const upTo = parseInt(document.getElementById('tableUpTo').value);
+    const skip = parseInt(document.getElementById('tableSkip').value);
+    const breakAt = parseInt(document.getElementById('tableBreak').value);
+
+    const output = document.getElementById('tableOutput');
+    const tableGrid = document.getElementById('tableGrid');
+    output.innerHTML = '';
+    tableGrid.innerHTML = '';
+
+    let lines = [];
+    let rows = [];
+
+    for(let i = 1; i <= upTo; i++) {
+      if(breakAt > 0 && i > breakAt) {
+        lines.push(`<span class="out-pink">⛔ BREAK — stopped after row ${breakAt}</span>`);
+        break;
+      }
+      if(skip > 0 && i % skip === 0) {
+        lines.push(`<span class="out-orange">⏭️ CONTINUE — skipped ${num} × ${i}</span>`);
+        continue;
+      }
+      const result = num * i;
+      lines.push(`<span class="out-cyan">${num}</span> <span class="out-dim">×</span> <span class="out-green">${String(i).padStart(2)}</span> <span class="out-dim">=</span> <span class="out-yellow">${String(result).padStart(4)}</span>`);
+      rows.push({ i, result });
+    }
+
+    output.innerHTML = lines.join('\n');
+
+    // Build visual table
+    const table = document.createElement('table');
+    const header = table.insertRow();
+    ['n', 'Formula', 'Result'].forEach(h => {
+      const th = document.createElement('th');
+      th.textContent = h;
+      header.appendChild(th);
+    });
+    rows.forEach(r => {
+      const row = table.insertRow();
+      [r.i, `${num} × ${r.i}`, r.result].forEach((v, ci) => {
+        const td = row.insertCell();
+        td.textContent = v;
+        if(ci === 2) td.classList.add('highlight');
+      });
+    });
+    tableGrid.appendChild(table);
+
+    // Show code
+    let skipCode = skip > 0 ? `\n  <span class="kw">if</span>(i % <span class="num">${skip}</span> === <span class="num">0</span>) { <span class="kw">continue</span>; }` : '';
+    let breakCode = breakAt > 0 ? `\n  <span class="kw">if</span>(i > <span class="num">${breakAt}</span>) { <span class="kw">break</span>; }` : '';
+    document.getElementById('tableCode').innerHTML =
+      `<span class="kw">for</span>(<span class="kw">let</span> i = <span class="num">1</span>; i &lt;= <span class="num">${upTo}</span>; i++) {${breakCode}${skipCode}
+  <span class="fn">console</span>.log(<span class="num">${num}</span> + <span class="str">" × "</span> + i + <span class="str">" = "</span> + (<span class="num">${num}</span> * i));
+}`;
+  }
+
+  // ========== TAB 3: GAME ==========
+  let gameData = [];
+
+  function newGame() {
+    gameData = [];
+    for(let r = 0; r < 10; r++) {
+      gameData[r] = [];
+      for(let c = 0; c < 10; c++) {
+        gameData[r][c] = Math.floor(Math.random() * 100) + 1;
+      }
+    }
+    renderGrid();
+    document.getElementById('iterCount').textContent = '0';
+    document.getElementById('gameStatus').textContent = 'Ready';
+    document.getElementById('gameStatus').style.color = 'var(--dim)';
+    document.getElementById('gameResult').textContent = '';
+  }
+
+  function renderGrid(highlight = null, searched = []) {
+    const grid = document.getElementById('gameGrid');
+    grid.innerHTML = '';
+    for(let r = 0; r < 10; r++) {
+      for(let c = 0; c < 10; c++) {
+        const cell = document.createElement('div');
+        cell.className = 'game-cell';
+        cell.textContent = gameData[r][c];
+        const key = `${r},${c}`;
+        if(highlight && highlight[0] === r && highlight[1] === c) {
+          cell.classList.add('found-inner');
+        } else if(searched.some(s => s[0] === r && s[1] === c)) {
+          cell.classList.add('searched');
+        }
+        grid.appendChild(cell);
+      }
+    }
+  }
+
+  function startSearch() {
+    if(gameData.length === 0) newGame();
+    const target = parseInt(document.getElementById('targetNum').value);
+    let iters = 0;
+    let foundAt = null;
+    let searched = [];
+
+    outer: for(let row = 0; row < 10; row++) {
+      for(let col = 0; col < 10; col++) {
+        iters++;
+        searched.push([row, col]);
+        if(gameData[row][col] === target) {
+          foundAt = [row, col];
+          break outer; // labeled break!
+        }
+      }
+    }
+
+    document.getElementById('iterCount').textContent = iters;
+    const statusEl = document.getElementById('gameStatus');
+    const resultEl = document.getElementById('gameResult');
+
+    if(foundAt) {
+      statusEl.textContent = '✅ FOUND!';
+      statusEl.style.color = 'var(--green)';
+      resultEl.innerHTML = `<span style="color:var(--green)">Found ${target} at Row ${foundAt[0]+1}, Col ${foundAt[1]+1}</span><br><span style="color:var(--dim)">break outer; exited both loops after ${iters} iterations — saved ${100 - iters} unnecessary checks!</span>`;
+      renderGrid(foundAt, searched);
+    } else {
+      statusEl.textContent = '❌ NOT FOUND';
+      statusEl.style.color = 'var(--pink)';
+      resultEl.innerHTML = `<span style="color:var(--pink)">${target} not in grid. Searched all 100 cells.</span>`;
+      renderGrid(null, searched);
+    }
+  }
+
+  // ========== TAB 4: PATTERNS ==========
+  function runPattern() {
+    const type = document.getElementById('patternType').value;
+    const size = parseInt(document.getElementById('patternSize').value);
+    const sym = document.getElementById('patternSym').value || '★';
+    const out = document.getElementById('patternOutput');
+    const codeEl = document.getElementById('patternCode');
+    let lines = [];
+    let code = '';
+
+    if(type === 'triangle') {
+      for(let i = 1; i <= size; i++) {
+        lines.push(`<span class="out-cyan">${sym.repeat(i)}</span>`);
+      }
+      code = `<span class="kw">for</span>(<span class="kw">let</span> i = <span class="num">1</span>; i &lt;= <span class="num">${size}</span>; i++) {
+  <span class="fn">console</span>.log(sym.repeat(i));
+}`;
+    } else if(type === 'pyramid') {
+      for(let i = 1; i <= size; i++) {
+        const spaces = ' '.repeat(size - i);
+        lines.push(`<span class="out-green">${spaces}${sym.repeat(2*i-1)}</span>`);
+      }
+      code = `<span class="kw">for</span>(<span class="kw">let</span> i = <span class="num">1</span>; i &lt;= <span class="num">${size}</span>; i++) {
+  <span class="kw">let</span> row = <span class="str">' '</span>.repeat(size - i) + sym.repeat(<span class="num">2</span>*i-<span class="num">1</span>);
+  <span class="fn">console</span>.log(row);
+}`;
+    } else if(type === 'diamond') {
+      for(let i = 1; i <= size*2-1; i++) {
+        const mid = size;
+        const count = i <= mid ? i : size*2 - i;
+        const spaces = ' '.repeat(mid - count);
+        lines.push(`<span class="out-yellow">${spaces}${sym.repeat(count)}</span>`);
+      }
+      code = `<span class="kw">for</span>(<span class="kw">let</span> i = <span class="num">1</span>; i &lt;= size*<span class="num">2</span>-<span class="num">1</span>; i++) {
+  <span class="kw">let</span> count = i &lt;= size ? i : size*<span class="num">2</span>-i;
+  <span class="fn">console</span>.log(<span class="str">' '</span>.repeat(size-count) + sym.repeat(count));
+}`;
+    } else if(type === 'checkerboard') {
+      for(let r = 0; r < size; r++) {
+        let row = '';
+        for(let c = 0; c < size; c++) {
+          if((r + c) % 2 === 0) { continue; } // just to demo continue
+          else row += sym + ' ';
+          if(false) break; // demo break (never fires)
+        }
+        // rebuild properly for display
+        row = '';
+        for(let c = 0; c < size; c++) {
+          row += (r + c) % 2 === 0 ? '  ' : sym + ' ';
+        }
+        lines.push(`<span class="out-pink">${row}</span>`);
+      }
+      code = `<span class="kw">for</span>(<span class="kw">let</span> r = <span class="num">0</span>; r &lt; size; r++) {
+  <span class="kw">let</span> row = <span class="str">''</span>;
+  <span class="kw">for</span>(<span class="kw">let</span> c = <span class="num">0</span>; c &lt; size; c++) {
+    <span class="kw">if</span>((r+c) % <span class="num">2</span> === <span class="num">0</span>) { <span class="kw">continue</span>; }
+    row += sym + <span class="str">' '</span>;
+  }
+  <span class="fn">console</span>.log(row);
+}`;
+    } else if(type === 'primes') {
+      let primes = [];
+      outer2: for(let n = 2; primes.length < size; n++) {
+        for(let d = 2; d <= Math.sqrt(n); d++) {
+          if(n % d === 0) continue outer2;
+        }
+        primes.push(n);
+      }
+      lines.push(`<span class="out-cyan">First ${size} prime numbers:</span>`);
+      lines.push(`<span class="out-yellow">${primes.join('  ')}</span>`);
+      code = `<span class="lbl">outer:</span> <span class="kw">for</span>(<span class="kw">let</span> n = <span class="num">2</span>; primes.length &lt; <span class="num">${size}</span>; n++) {
+  <span class="kw">for</span>(<span class="kw">let</span> d = <span class="num">2</span>; d &lt;= Math.sqrt(n); d++) {
+    <span class="kw">if</span>(n % d === <span class="num">0</span>) <span class="kw">continue</span> <span class="lbl">outer</span>; <span class="cmt">// not prime, skip</span>
+  }
+  primes.push(n); <span class="cmt">// survived all checks = prime!</span>
+}`;
+    }
+
+    out.innerHTML = lines.join('\n');
+    codeEl.innerHTML = code;
+  }
+
+  // ========== INIT ==========
+  newGame();
+  runTable();
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Loop Lab - Simple</title>
+</head>
+<body>
+
+  <h1>Loop Lab - JavaScript Loops Practice</h1>
+  <hr>
+
+  <!-- ========== SECTION 1: FOR LOOP ========== -->
+  <h2>1. For Loop</h2>
+  <label>Start: <input type="number" id="forStart" value="1"></label>
+  <label>End: <input type="number" id="forEnd" value="10"></label>
+  <br><br>
+  <button onclick="runForLoop()">Run For Loop</button>
+  <br>
+  <pre id="forOutput"></pre>
+  <hr>
+
+  <!-- ========== SECTION 2: WHILE LOOP ========== -->
+  <h2>2. While Loop</h2>
+  <label>Start: <input type="number" id="whileStart" value="1"></label>
+  <label>End: <input type="number" id="whileEnd" value="10"></label>
+  <br><br>
+  <button onclick="runWhileLoop()">Run While Loop</button>
+  <br>
+  <pre id="whileOutput"></pre>
+  <hr>
+
+  <!-- ========== SECTION 3: DO WHILE LOOP ========== -->
+  <h2>3. Do While Loop</h2>
+  <label>Start: <input type="number" id="doStart" value="1"></label>
+  <label>End: <input type="number" id="doEnd" value="10"></label>
+  <br><br>
+  <button onclick="runDoWhile()">Run Do While Loop</button>
+  <br>
+  <pre id="doOutput"></pre>
+  <hr>
+
+  <!-- ========== SECTION 4: BREAK ========== -->
+  <h2>4. Break Statement</h2>
+  <label>Start: <input type="number" id="breakStart" value="1"></label>
+  <label>End: <input type="number" id="breakEnd" value="10"></label>
+  <label>Break at: <input type="number" id="breakAt" value="5"></label>
+  <br><br>
+  <button onclick="runBreak()">Run Break</button>
+  <br>
+  <pre id="breakOutput"></pre>
+  <hr>
+
+  <!-- ========== SECTION 5: CONTINUE ========== -->
+  <h2>5. Continue Statement</h2>
+  <label>Start: <input type="number" id="contStart" value="1"></label>
+  <label>End: <input type="number" id="contEnd" value="10"></label>
+  <label>Skip number: <input type="number" id="contSkip" value="5"></label>
+  <br><br>
+  <button onclick="runContinue()">Run Continue</button>
+  <br>
+  <pre id="contOutput"></pre>
+  <hr>
+
+  <!-- ========== SECTION 6: LABELED BREAK ========== -->
+  <h2>6. Labeled Break (Nested Loops)</h2>
+  <label>Outer loop 1 to: <input type="number" id="lblOuter" value="4"></label>
+  <label>Inner loop 1 to: <input type="number" id="lblInner" value="4"></label>
+  <label>Break both when inner =: <input type="number" id="lblBreakAt" value="2"></label>
+  <br><br>
+  <button onclick="runLabeledBreak()">Run Labeled Break</button>
+  <br>
+  <pre id="lblOutput"></pre>
+  <hr>
+
+  <!-- ========== SECTION 7: LABELED CONTINUE ========== -->
+  <h2>7. Labeled Continue (Nested Loops)</h2>
+  <label>Outer loop 1 to: <input type="number" id="lContOuter" value="3"></label>
+  <label>Inner loop 1 to: <input type="number" id="lContInner" value="3"></label>
+  <label>Skip to next outer when inner =: <input type="number" id="lContSkipAt" value="2"></label>
+  <br><br>
+  <button onclick="runLabeledContinue()">Run Labeled Continue</button>
+  <br>
+  <pre id="lContOutput"></pre>
+  <hr>
+
+  <!-- ========== SECTION 8: MULTIPLICATION TABLE ========== -->
+  <h2>8. Multiplication Table (Nested For Loop)</h2>
+  <label>Table of: <input type="number" id="mulNum" value="5"></label>
+  <label>Up to: <input type="number" id="mulUpTo" value="10"></label>
+  <br><br>
+  <button onclick="runMultiplication()">Generate Table</button>
+  <br>
+  <pre id="mulOutput"></pre>
+  <hr>
+
+  <!-- ========== SECTION 9: PRIME NUMBERS ========== -->
+  <h2>9. Prime Numbers using Labeled Continue</h2>
+  <label>Find primes from 2 to: <input type="number" id="primeLimit" value="50"></label>
+  <br><br>
+  <button onclick="runPrimes()">Find Primes</button>
+  <br>
+  <pre id="primeOutput"></pre>
+  <hr>
+
+
+  <script>
+
+    // ========== 1. FOR LOOP ==========
+    function runForLoop() {
+      let start = parseInt(document.getElementById("forStart").value);
+      let end   = parseInt(document.getElementById("forEnd").value);
+      let result = "For Loop Output:\n";
+
+      for(let i = start; i <= end; i++) {
+        result += "i = " + i + "\n";
+      }
+
+      document.getElementById("forOutput").textContent = result;
+    }
+
+
+    // ========== 2. WHILE LOOP ==========
+    function runWhileLoop() {
+      let i     = parseInt(document.getElementById("whileStart").value);
+      let end   = parseInt(document.getElementById("whileEnd").value);
+      let result = "While Loop Output:\n";
+
+      while(i <= end) {
+        result += "i = " + i + "\n";
+        i++;
+      }
+
+      document.getElementById("whileOutput").textContent = result;
+    }
+
+
+    // ========== 3. DO WHILE LOOP ==========
+    function runDoWhile() {
+      let i     = parseInt(document.getElementById("doStart").value);
+      let end   = parseInt(document.getElementById("doEnd").value);
+      let result = "Do While Loop Output:\n";
+
+      do {
+        result += "i = " + i + "\n";
+        i++;
+      } while(i <= end);
+
+      document.getElementById("doOutput").textContent = result;
+    }
+
+
+    // ========== 4. BREAK ==========
+    function runBreak() {
+      let start   = parseInt(document.getElementById("breakStart").value);
+      let end     = parseInt(document.getElementById("breakEnd").value);
+      let breakAt = parseInt(document.getElementById("breakAt").value);
+      let result  = "Break Statement Output:\n";
+
+      for(let i = start; i <= end; i++) {
+        if(i === breakAt) {
+          result += "BREAK! Loop stopped at i = " + i + "\n";
+          break;
+        }
+        result += "i = " + i + "\n";
+      }
+
+      document.getElementById("breakOutput").textContent = result;
+    }
+
+
+    // ========== 5. CONTINUE ==========
+    function runContinue() {
+      let start  = parseInt(document.getElementById("contStart").value);
+      let end    = parseInt(document.getElementById("contEnd").value);
+      let skipAt = parseInt(document.getElementById("contSkip").value);
+      let result = "Continue Statement Output:\n";
+
+      for(let i = start; i <= end; i++) {
+        if(i === skipAt) {
+          result += "SKIPPED i = " + i + "\n";
+          continue;
+        }
+        result += "i = " + i + "\n";
+      }
+
+      document.getElementById("contOutput").textContent = result;
+    }
+
+
+    // ========== 6. LABELED BREAK ==========
+    function runLabeledBreak() {
+      let outerEnd  = parseInt(document.getElementById("lblOuter").value);
+      let innerEnd  = parseInt(document.getElementById("lblInner").value);
+      let breakAt   = parseInt(document.getElementById("lblBreakAt").value);
+      let result    = "Labeled Break Output:\n";
+
+      outer: for(let i = 1; i <= outerEnd; i++) {
+        for(let j = 1; j <= innerEnd; j++) {
+          if(j === breakAt) {
+            result += "BREAK OUTER! at i=" + i + " j=" + j + " -- Both loops stopped!\n";
+            break outer;
+          }
+          result += "i=" + i + "  j=" + j + "\n";
+        }
+      }
+
+      result += "Loop ended.";
+      document.getElementById("lblOutput").textContent = result;
+    }
+
+
+    // ========== 7. LABELED CONTINUE ==========
+    function runLabeledContinue() {
+      let outerEnd = parseInt(document.getElementById("lContOuter").value);
+      let innerEnd = parseInt(document.getElementById("lContInner").value);
+      let skipAt   = parseInt(document.getElementById("lContSkipAt").value);
+      let result   = "Labeled Continue Output:\n";
+
+      outer: for(let i = 1; i <= outerEnd; i++) {
+        result += "-- Outer i=" + i + "\n";
+        for(let j = 1; j <= innerEnd; j++) {
+          if(j === skipAt) {
+            result += "   CONTINUE OUTER at j=" + j + " -- skipping to next i\n";
+            continue outer;
+          }
+          result += "   Inner j=" + j + "\n";
+        }
+      }
+
+      document.getElementById("lContOutput").textContent = result;
+    }
+
+
+    // ========== 8. MULTIPLICATION TABLE ==========
+    function runMultiplication() {
+      let num  = parseInt(document.getElementById("mulNum").value);
+      let upTo = parseInt(document.getElementById("mulUpTo").value);
+      let result = "Multiplication Table of " + num + ":\n";
+
+      for(let i = 1; i <= upTo; i++) {
+        result += num + " x " + i + " = " + (num * i) + "\n";
+      }
+
+      document.getElementById("mulOutput").textContent = result;
+    }
+
+
+    // ========== 9. PRIME NUMBERS ==========
+    function runPrimes() {
+      let limit  = parseInt(document.getElementById("primeLimit").value);
+      let primes = [];
+      let result = "Prime numbers from 2 to " + limit + ":\n";
+
+      outer: for(let n = 2; n <= limit; n++) {
+        for(let d = 2; d <= Math.sqrt(n); d++) {
+          if(n % d === 0) {
+            continue outer; // not prime, skip to next n
+          }
+        }
+        primes.push(n); // survived all checks = it is prime
+      }
+
+      result += primes.join(", ");
+      result += "\n\nTotal primes found: " + primes.length;
+      document.getElementById("primeOutput").textContent = result;
+    }
+
+  </script>
+
+</body>
+</html>

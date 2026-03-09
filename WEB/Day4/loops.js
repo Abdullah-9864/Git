@@ -36,13 +36,13 @@ for(let i=0; i<10; i++)
 
 // labels are used in nested loops
 
-outer:for(let n=0; n<=3;n++)
+for(let n=1; n<=3;n++)
 {
-    for(let m=0;m<=3;m++)
+    for(let m=1;m<=3;m++)
     {
         if(m===2)
         {
-            break outer;
+            break;
         }
         console.log(n,m);
     }

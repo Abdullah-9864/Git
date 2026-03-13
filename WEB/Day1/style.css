@@ -1,0 +1,43 @@
+
+body{
+    font-family: "Fira Code", monospace;
+    background:black;
+    color:#4ceb08;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 50px;
+
+}
+
+#input
+{
+    padding:10px;
+    width: 250px;
+    border-radius:40px;
+    transition: border , 0.3s;
+    font-size:18px;
+
+}
+#input:focus
+{
+   border-color: aquamarine;
+   border-bottom:0dvi ;
+
+}
+
+button
+{
+    padding:10px 15px;
+    background-color: #5feb08;
+    color:rgb(255, 255, 255);
+    border:none;
+    border-radius:10px;
+    cursor: pointer;
+
+
+}
+button:hover
+{
+    background-color: #d5ff00;
+}

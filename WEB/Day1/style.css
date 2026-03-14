@@ -1,7 +1,7 @@
 
 body{
     font-family: "Fira Code", monospace;
-    background:black;
+    background:rgb(3, 128, 82);
     color:#4ceb08;
     display: flex;
     justify-content: center;

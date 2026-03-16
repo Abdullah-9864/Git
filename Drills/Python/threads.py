@@ -1,6 +1,7 @@
 import threading
 import time
 
+
 # Task 1: Print numbers
 def print_numbers():
     for i in range(5):

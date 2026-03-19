@@ -1,34 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="favicon.png">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="favicon.png" />
     <title>Calculator</title>
-    <script src="style.css" ></script>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div id="calculator">
-    <div id="display">0</div>
-    <button>+</button>
-    <button>-</button>
-    <button>*</button>
-    <button>/</button>
+      <div id="display">0</div>
 
-    <button>7</button>
-    <button>8</button>
-    <button>9</button>
+      <div id="buttons">
+        <button onclick="pressKey('+')">+</button>
+        <button onclick="pressKey('-')">-</button>
+        <button onclick="pressKey('*')">*</button>
+        <button onclick="pressKey('/')">/</button>
 
-    <button>=</button>
+        <button onclick="pressKey('7')">7</button>
+        <button onclick="pressKey('8')">8</button>
+        <button onclick="pressKey('9')">9</button>
+        <button onclick="pressKey('back')">⌫</button>
+        
 
-    <button>4</button>
-    <button>5</button>
-    <button>6</button>
+        <button onclick="pressKey('4')">4</button>
+        <button onclick="pressKey('5')">5</button>
+        <button onclick="pressKey('6')">6</button>
+        <button onclick="pressKey('C')">C</button>
 
-    <button>1</button>
-    <button>2</button>
-    <button>3</button>
+
+
+        <button onclick="pressKey('1')">1</button>
+        <button onclick="pressKey('2')">2</button>
+        <button onclick="pressKey('3')">3</button>
+        <button onclick="pressKey('=')">=</button>
+      </div>
     </div>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

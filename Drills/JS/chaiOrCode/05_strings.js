@@ -19,6 +19,9 @@ console.dir(Name);
 // console.log(Name.replace("ul", "UL"))
 // console.log(Name.includes("ul"));
 
+let string="Abdullah";
+console.log(string.slice(0,-1));
+
 
 
 

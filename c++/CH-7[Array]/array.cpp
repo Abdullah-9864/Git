@@ -2,5 +2,7 @@
 using namespace std;
 main()
 {
-    int arr[3];
+    int * array= new int[5];
+    
+
 }

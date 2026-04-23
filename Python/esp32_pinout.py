@@ -216,7 +216,7 @@ CATEGORIES = [
     ('special', '⚠ Special', '#EF9F27'),
 ]
 
-# ─── Board layout constants ────────────────────────────────────────────────────
+# ─── Board layout constants ──────────────
 CVS_W, CVS_H = 500, 440
 BOARD_X1, BOARD_Y1 = 155, 18
 BOARD_X2, BOARD_Y2 = 345, 420

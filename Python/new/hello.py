@@ -1,14 +1,8 @@
-print("hello world")
-name="Abdullah"
-print("My name is", name)
-print(name, "is working on great projects")
+text="Abdullah Shahid"
+print(text.upper())
 
-
-name = input("Enter your name:")
-print(name)
-print(len(name))
-print("A"in name)
-print("hello" not in name)
+number=4294967295;
+print(number.bit_length())
 
 
 

@@ -1,0 +1,21 @@
+/* index.css — GLOBAL STYLES
+   Minimal on purpose. Every concept is in the JS files.
+   This just makes things readable. */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Courier New', monospace;
+  background: #f9f9f7;
+  color: #1a1a1a;
+  line-height: 1.6;
+}
+
+a { color: inherit; text-decoration: none; }
+
+code {
+  background: #eee;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}

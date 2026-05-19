@@ -7,9 +7,14 @@ main()
     ptr=&n;
     cout<<sizeof(int)<<endl;
     cout<<"address of n: "<<ptr<<"   |    "<<"value of n: "<<*ptr<<endl;
+    cout<<"address of n: "<<(ptr+1)<<"   |    "<<"value of n: "<<*(ptr+1)<<endl;
     char *p1;
     p1=(char*)ptr;
+    cout<<"---------------------------------"<<endl;
+    cout<<sizeof(char)<<endl;
+    cout<<"---------------------------------"<<endl;
     cout<<"address of n: "<<(void*)p1<<"   |    "<<"value of n: "<<*p1<<endl;
+    cout<<"address of n: "<<(void*)p1+1<<"   |    "<<"value of n: "<<*(p1+8)<<endl;
 
     // cout<<*p1;
 

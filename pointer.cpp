@@ -22,8 +22,11 @@ main()
     cout<<"The value of x is: "<<x<<endl;
     cout<<"The address of x is: "<<p<<endl;
     cout<<"The value of x is: "<<*p<<endl;  
-    cout<<"The address of p is: "<<q<<endl;
     cout<<"The address of *p is: "<<*q<<endl;
     cout<<"The value of x is: "<<*(*q)<<endl;
-    cout<<"The address  of **q is: "<<*r<<endl;
+    cout<<"The address  of **q is: "<<*(*r)<<endl;
+    cout<<"The value of x is: "<<*(*(*r))<<endl;
+    ***r=100;
+    cout<<"The value of x is: "<<x<<endl;
+    cout<<"The value of x is: "<<*p<<endl;
 }

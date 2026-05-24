@@ -1,38 +1,33 @@
-#include<iostream>
+// #include<iostream>
+#include<bits/stdc++.h>
 using namespace std;
-
-struct Node {
+struct node
+{
     int data;
-    Node* next;
+    node* next;
 };
+main()
+{
+    node n;
+    n.data=23;
+    node m;
+    m.data=24;
+    node o;
+    o.data=25;
 
-int main() {
+    n.next=&m;
+    m.next=&o;
+    o.next=NULL;
 
-    // create nodes
-    Node* n1 = new Node();
-    Node* n2 = new Node();
-    Node* n3 = new Node();
+    node* temp=&n;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" -> ";
+        temp=temp->next;
 
-    // assign data
-    n1->data = 10;
-    n2->data = 20;
-    n3->data = 30;
-
-    // link nodes
-    n1->next = n2;
-    n2->next = n3;
-    n3->next = NULL;
-
-    // head points to first node
-    Node* head = n1;
-
-    // display
-    Node* current = head;
-    while(current != NULL) {
-        cout << current->data << " -> ";
-        current = current->next;
     }
-    cout << "NULL" << endl;
-
+    cout<<"NULL";
     return 0;
+
 }
+

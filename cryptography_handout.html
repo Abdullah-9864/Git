@@ -1,0 +1,448 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .page { padding: 1.5rem 0; }
+  .hero { text-align: center; margin-bottom: 2rem; }
+  .hero h1 { font-size: 22px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+  .hero p { font-size: 14px; color: var(--color-text-secondary); }
+  .section { margin-bottom: 2rem; }
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; padding-bottom: 8px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .section-header h2 { font-size: 16px; font-weight: 500; color: var(--color-text-primary); }
+  .badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: var(--border-radius-md); }
+  .badge-purple { background: #EEEDFE; color: #3C3489; }
+  .badge-teal { background: #E1F5EE; color: #085041; }
+  .badge-amber { background: #FAEEDA; color: #633806; }
+  .badge-gray { background: #F1EFE8; color: #444441; }
+  .badge-blue { background: #E6F1FB; color: #0C447C; }
+  .badge-coral { background: #FAECE7; color: #712B13; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+  .card h3 { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .card p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 8px; }
+  .card p:last-child { margin-bottom: 0; }
+  .formula { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 8px 12px; font-family: var(--font-mono); font-size: 13px; color: var(--color-text-primary); margin: 8px 0; }
+  .example-box { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; margin: 8px 0; }
+  .example-box .label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+  .example-box .val { font-family: var(--font-mono); font-size: 13px; color: var(--color-text-primary); }
+  .two-col { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; }
+  .tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .tag { font-size: 11px; padding: 2px 8px; border-radius: 20px; }
+  .tag-strength { background: #EAF3DE; color: #3B6D11; }
+  .tag-weakness { background: #FCEBEB; color: #A32D2D; }
+  .tag-usage { background: #E6F1FB; color: #185FA5; }
+  .divider { height: 0.5px; background: var(--color-border-tertiary); margin: 1.5rem 0; }
+  .highlight-card { border-left: 3px solid #534AB7; background: #EEEDFE; border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0; padding: 10px 14px; margin: 8px 0; }
+  .highlight-card p { color: #3C3489; font-size: 13px; }
+  .ring-table { width: 100%; font-size: 13px; border-collapse: collapse; margin-top: 8px; }
+  .ring-table th { font-weight: 500; text-align: left; padding: 6px 10px; background: var(--color-background-secondary); color: var(--color-text-secondary); font-size: 12px; }
+  .ring-table td { padding: 6px 10px; border-top: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); font-family: var(--font-mono); font-size: 12px; }
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 1rem; }
+  .summary-card { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 10px 12px; text-align: center; }
+  .summary-card .s-title { font-size: 12px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .summary-card .s-sub { font-size: 11px; color: var(--color-text-secondary); }
+  .nav-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .tab-btn { font-size: 12px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-secondary); cursor: pointer; transition: all 0.15s; }
+  .tab-btn:hover { background: var(--color-background-secondary); }
+  .tab-btn.active { background: #EEEDFE; color: #3C3489; border-color: #AFA9EC; font-weight: 500; }
+  .section-content { display: none; }
+  .section-content.active { display: block; }
+  .warn-box { background: #FAEEDA; border-radius: var(--border-radius-md); padding: 10px 12px; margin: 8px 0; }
+  .warn-box p { color: #633806; font-size: 13px; }
+  .success-box { background: #EAF3DE; border-radius: var(--border-radius-md); padding: 10px 12px; margin: 8px 0; }
+  .success-box p { color: #3B6D11; font-size: 13px; }
+</style>
+
+<div class="page">
+  <h2 class="sr-only">Cryptography study handout covering substitution ciphers, modular arithmetic, integer rings, affine cipher, stream ciphers, one-time pad, and cryptanalysis</h2>
+
+  <div class="hero">
+    <h1>Cryptography — exam handout</h1>
+    <p>Substitution ciphers · Modular arithmetic · Stream ciphers · Cryptanalysis</p>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="showTab('overview')">Overview</button>
+    <button class="tab-btn" onclick="showTab('substitution')">Substitution cipher</button>
+    <button class="tab-btn" onclick="showTab('caesar')">Caesar cipher</button>
+    <button class="tab-btn" onclick="showTab('rings')">Integer rings</button>
+    <button class="tab-btn" onclick="showTab('affine')">Affine cipher</button>
+    <button class="tab-btn" onclick="showTab('stream')">Stream ciphers</button>
+    <button class="tab-btn" onclick="showTab('otp')">One-time pad</button>
+    <button class="tab-btn" onclick="showTab('cryptanalysis')">Cryptanalysis</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="tab-overview" class="section-content active">
+    <div class="card">
+      <h3>How everything connects</h3>
+      <p>Think of it as a tree: <strong>Integer Rings</strong> is the math foundation. <strong>Cryptanalysis</strong> is the method of attacking. The rest are cipher types.</p>
+    </div>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="s-title">Substitution cipher</div>
+        <div class="s-sub">Base concept — replace each letter</div>
+      </div>
+      <div class="summary-card">
+        <div class="s-title">Caesar cipher</div>
+        <div class="s-sub">Shift by k using mod 26</div>
+      </div>
+      <div class="summary-card">
+        <div class="s-title">Integer rings</div>
+        <div class="s-sub">Math behind mod arithmetic</div>
+      </div>
+      <div class="summary-card">
+        <div class="s-title">Affine cipher</div>
+        <div class="s-sub">ax + b mod 26</div>
+      </div>
+      <div class="summary-card">
+        <div class="s-title">Stream cipher</div>
+        <div class="s-sub">Encrypt bit by bit</div>
+      </div>
+      <div class="summary-card">
+        <div class="s-title">One-time pad</div>
+        <div class="s-sub">Theoretically unbreakable</div>
+      </div>
+      <div class="summary-card">
+        <div class="s-title">Cryptanalysis</div>
+        <div class="s-sub">Breaking / attacking ciphers</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="card">
+      <h3>Which are substitution ciphers?</h3>
+      <div class="tag-row">
+        <span class="tag tag-strength">✓ Substitution cipher</span>
+        <span class="tag tag-strength">✓ Caesar cipher</span>
+        <span class="tag tag-strength">✓ Affine cipher</span>
+        <span class="tag tag-usage">~ Stream cipher (related)</span>
+        <span class="tag tag-usage">~ One-time pad (special case)</span>
+        <span class="tag tag-weakness">✗ Integer rings (math only)</span>
+        <span class="tag tag-weakness">✗ Cryptanalysis (attack method)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBSTITUTION -->
+  <div id="tab-substitution" class="section-content">
+    <div class="section-header">
+      <h2>Substitution cipher</h2>
+      <span class="badge badge-purple">Classical cipher</span>
+    </div>
+    <div class="card">
+      <h3>What is it?</h3>
+      <p>Each letter in the plaintext is replaced by another letter or symbol according to a fixed rule. The <strong>structure</strong> of the message stays the same, only the characters change.</p>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Monoalphabetic</h3>
+        <p>One fixed substitution alphabet. Each letter always maps to the same letter.</p>
+        <p>Examples: Caesar, Affine, ROT13</p>
+        <div class="tag-row"><span class="tag tag-weakness">Easy to crack</span></div>
+      </div>
+      <div class="card">
+        <h3>Polyalphabetic</h3>
+        <p>Uses multiple substitution alphabets that change position by position.</p>
+        <p>Examples: Vigenère cipher</p>
+        <div class="tag-row"><span class="tag tag-strength">Harder to crack</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Simple example (ROT13)</h3>
+      <div class="example-box">
+        <div class="label">Plaintext</div>
+        <div class="val">HELLO</div>
+      </div>
+      <div class="example-box">
+        <div class="label">Ciphertext (shift 13)</div>
+        <div class="val">URYYB</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Key weakness — frequency analysis</h3>
+      <p>In English, the letter 'E' appears ~12.7% of the time. Since substitution just replaces letters with other fixed letters, the frequency pattern is preserved. An attacker can map frequent ciphertext letters back to common plaintext letters.</p>
+      <div class="warn-box"><p>Frequency analysis can break monoalphabetic substitution ciphers quickly.</p></div>
+    </div>
+  </div>
+
+  <!-- CAESAR -->
+  <div id="tab-caesar" class="section-content">
+    <div class="section-header">
+      <h2>Modular arithmetic Caesar cipher</h2>
+      <span class="badge badge-purple">Monoalphabetic</span>
+    </div>
+    <div class="card">
+      <h3>Core idea</h3>
+      <p>Shift every letter by a fixed value k. Modular arithmetic (mod 26) handles wrap-around so after Z it goes back to A.</p>
+    </div>
+    <div class="card">
+      <h3>Formulas</h3>
+      <div class="formula">Encrypt: E(x) = (x + k) mod 26</div>
+      <div class="formula">Decrypt: D(x) = (x - k + 26) mod 26</div>
+      <p style="margin-top:8px">where x = letter position (A=0, B=1 ... Z=25), k = shift key</p>
+    </div>
+    <div class="card">
+      <h3>Worked example (k = 3)</h3>
+      <table class="ring-table">
+        <tr><th>Letter</th><th>Position (x)</th><th>(x + 3) mod 26</th><th>Result</th></tr>
+        <tr><td>H</td><td>7</td><td>10</td><td>K</td></tr>
+        <tr><td>E</td><td>4</td><td>7</td><td>H</td></tr>
+        <tr><td>L</td><td>11</td><td>14</td><td>O</td></tr>
+        <tr><td>L</td><td>11</td><td>14</td><td>O</td></tr>
+        <tr><td>O</td><td>14</td><td>17</td><td>R</td></tr>
+      </table>
+      <div style="margin-top:10px; display:flex; gap:8px; align-items:center;">
+        <span class="badge badge-purple">HELLO → KHOOR</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Wrap-around example (k = 3)</h3>
+      <div class="example-box">
+        <div class="label">Y = 24 → (24 + 3) mod 26 = 27 mod 26 = 1 → B</div>
+        <div class="val">Y wraps around to B ✓</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Security</h3>
+      <p>Only 25 possible keys (shifts 1–25). A brute force attack tries all 25 and picks the one that produces readable text. Very insecure by modern standards.</p>
+      <div class="tag-row">
+        <span class="tag tag-weakness">Only 25 keys</span>
+        <span class="tag tag-weakness">Brute-forceable instantly</span>
+        <span class="tag tag-usage">Historical / educational use</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTEGER RINGS -->
+  <div id="tab-rings" class="section-content">
+    <div class="section-header">
+      <h2>Integer rings & modular arithmetic</h2>
+      <span class="badge badge-gray">Math foundation</span>
+    </div>
+    <div class="card">
+      <h3>What is ℤ_n (Integer ring)?</h3>
+      <p>An integer ring ℤ_n is the set of integers {0, 1, 2, ..., n−1} where all arithmetic wraps around at n using modulo. Think of a clock — after 12 it goes back to 1.</p>
+      <div class="formula">ℤ_26 = {"{"}0, 1, 2, 3, ..., 25{"}"}</div>
+      <p>This is exactly the alphabet: A=0, B=1, ..., Z=25</p>
+    </div>
+    <div class="card">
+      <h3>Key operations in ℤ_n</h3>
+      <table class="ring-table">
+        <tr><th>Operation</th><th>Example in ℤ_26</th><th>Result</th></tr>
+        <tr><td>Addition</td><td>(20 + 10) mod 26</td><td>4</td></tr>
+        <tr><td>Subtraction</td><td>(3 − 7 + 26) mod 26</td><td>22</td></tr>
+        <tr><td>Multiplication</td><td>(5 × 7) mod 26</td><td>9</td></tr>
+        <tr><td>Inverse</td><td>5⁻¹ mod 26</td><td>21 (since 5×21=105≡1)</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <h3>gcd and invertibility</h3>
+      <p>A number a has a multiplicative inverse in ℤ_n only if gcd(a, n) = 1 (they are coprime). This is critical for the Affine cipher — if a is not coprime to 26, decryption is impossible.</p>
+      <div class="formula">Valid values of a in ℤ_26: 1,3,5,7,9,11,15,17,19,21,23,25</div>
+    </div>
+    <div class="highlight-card">
+      <p>Integer rings are the math that makes Caesar and Affine ciphers work. Without mod arithmetic, letters would go out of range (past Z).</p>
+    </div>
+  </div>
+
+  <!-- AFFINE -->
+  <div id="tab-affine" class="section-content">
+    <div class="section-header">
+      <h2>Affine cipher</h2>
+      <span class="badge badge-purple">Monoalphabetic substitution</span>
+    </div>
+    <div class="card">
+      <h3>What is it?</h3>
+      <p>An extension of the Caesar cipher. Instead of just shifting (adding k), it also multiplies by a value. This gives more possible keys and a more complex substitution.</p>
+    </div>
+    <div class="card">
+      <h3>Formulas</h3>
+      <div class="formula">Encrypt: E(x) = (a·x + b) mod 26</div>
+      <div class="formula">Decrypt: D(x) = a⁻¹ · (x − b) mod 26</div>
+      <p style="margin-top:8px">Key = (a, b) where gcd(a, 26) = 1 (a must be coprime to 26)</p>
+      <p>Caesar cipher is a special case: when a = 1, E(x) = x + b mod 26</p>
+    </div>
+    <div class="card">
+      <h3>Worked example — key (5, 8)</h3>
+      <table class="ring-table">
+        <tr><th>Letter</th><th>x</th><th>(5x + 8) mod 26</th><th>Result</th></tr>
+        <tr><td>H</td><td>7</td><td>(35+8) mod 26 = 43 mod 26 = 17</td><td>R</td></tr>
+        <tr><td>E</td><td>4</td><td>(20+8) mod 26 = 28 mod 26 = 2</td><td>C</td></tr>
+        <tr><td>L</td><td>11</td><td>(55+8) mod 26 = 63 mod 26 = 11</td><td>L</td></tr>
+        <tr><td>O</td><td>14</td><td>(70+8) mod 26 = 78 mod 26 = 0</td><td>A</td></tr>
+      </table>
+      <div style="margin-top:10px">
+        <span class="badge badge-purple">HELLO → RCLLA</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Finding a⁻¹ for decryption</h3>
+      <p>To decrypt, you need the modular inverse of a. For a=5 in ℤ_26: find x where 5x ≡ 1 (mod 26). Answer: x = 21 since 5×21 = 105 = 4×26 + 1.</p>
+      <div class="formula">D(x) = 21·(x − 8) mod 26</div>
+    </div>
+    <div class="card">
+      <h3>Key space</h3>
+      <p>12 valid values of a × 26 values of b = 312 possible keys. Much better than Caesar (25 keys), but still breakable by frequency analysis.</p>
+      <div class="tag-row">
+        <span class="tag tag-strength">312 possible keys</span>
+        <span class="tag tag-weakness">Still vulnerable to frequency analysis</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- STREAM CIPHER -->
+  <div id="tab-stream" class="section-content">
+    <div class="section-header">
+      <h2>Stream ciphers</h2>
+      <span class="badge badge-teal">Modern cipher</span>
+    </div>
+    <div class="card">
+      <h3>What is it?</h3>
+      <p>A stream cipher encrypts data one bit (or byte) at a time. It generates a pseudorandom keystream and XORs it with the plaintext. The receiver uses the same keystream to decrypt.</p>
+    </div>
+    <div class="card">
+      <h3>How it works</h3>
+      <div class="formula">Ciphertext = Plaintext XOR Keystream</div>
+      <div class="formula">Plaintext  = Ciphertext XOR Keystream</div>
+      <p style="margin-top:8px">XOR is its own inverse — applying it twice gives back the original.</p>
+    </div>
+    <div class="card">
+      <h3>Simple XOR example</h3>
+      <table class="ring-table">
+        <tr><th>Item</th><th>Binary</th></tr>
+        <tr><td>Plaintext 'A'</td><td>01000001</td></tr>
+        <tr><td>Keystream byte</td><td>10110011</td></tr>
+        <tr><td>Ciphertext (XOR)</td><td>11110010</td></tr>
+        <tr><td>Decrypt (XOR again)</td><td>01000001 → 'A' ✓</td></tr>
+      </table>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Synchronous</h3>
+        <p>Keystream generated independently of plaintext/ciphertext. Both sides must stay in sync.</p>
+        <p>Example: RC4</p>
+      </div>
+      <div class="card">
+        <h3>Self-synchronizing</h3>
+        <p>Keystream depends on previous ciphertext digits. Can re-sync after errors.</p>
+        <p>Example: CFB mode</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Modern examples</h3>
+      <div class="tag-row">
+        <span class="tag tag-usage">RC4 (old, deprecated)</span>
+        <span class="tag tag-usage">ChaCha20</span>
+        <span class="tag tag-usage">Salsa20</span>
+        <span class="tag tag-usage">A5/1 (GSM phones)</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Key rule — never reuse keystream</h3>
+      <div class="warn-box"><p>If the same keystream is used twice (two-time pad), XORing both ciphertexts cancels the keystream and reveals relationships between the plaintexts. This is a critical vulnerability.</p></div>
+    </div>
+  </div>
+
+  <!-- ONE-TIME PAD -->
+  <div id="tab-otp" class="section-content">
+    <div class="section-header">
+      <h2>One-time pad (OTP)</h2>
+      <span class="badge badge-amber">Theoretically unbreakable</span>
+    </div>
+    <div class="card">
+      <h3>What is it?</h3>
+      <p>The only cipher proven to be perfectly secure (information-theoretically secure). Uses a truly random key that is as long as the message and is used only once.</p>
+    </div>
+    <div class="card">
+      <h3>How it works</h3>
+      <div class="formula">C_i = (P_i + K_i) mod 26</div>
+      <div class="formula">P_i = (C_i − K_i + 26) mod 26</div>
+      <p style="margin-top:8px">Each letter of plaintext is shifted by the corresponding letter of the key.</p>
+    </div>
+    <div class="card">
+      <h3>Worked example</h3>
+      <table class="ring-table">
+        <tr><th>Index</th><th>Plain</th><th>Key</th><th>P+K mod 26</th><th>Cipher</th></tr>
+        <tr><td>1</td><td>H (7)</td><td>X (23)</td><td>(7+23) mod 26 = 4</td><td>E</td></tr>
+        <tr><td>2</td><td>E (4)</td><td>M (12)</td><td>(4+12) mod 26 = 16</td><td>Q</td></tr>
+        <tr><td>3</td><td>L (11)</td><td>Q (16)</td><td>(11+16) mod 26 = 1</td><td>B</td></tr>
+        <tr><td>4</td><td>L (11)</td><td>A (0)</td><td>(11+0) mod 26 = 11</td><td>L</td></tr>
+        <tr><td>5</td><td>O (14)</td><td>F (5)</td><td>(14+5) mod 26 = 19</td><td>T</td></tr>
+      </table>
+      <div style="margin-top:10px"><span class="badge badge-amber">HELLO → EQBLT</span></div>
+    </div>
+    <div class="card">
+      <h3>Why is it perfectly secure?</h3>
+      <p>For any ciphertext, every possible plaintext of the same length is equally likely. There is no statistical pattern to analyze. An attacker gains zero information.</p>
+      <div class="success-box"><p>Proven secure by Claude Shannon in 1949 — but only when the key is truly random, as long as the message, and never reused.</p></div>
+    </div>
+    <div class="card">
+      <h3>Practical problems</h3>
+      <div class="tag-row">
+        <span class="tag tag-weakness">Key must equal message length</span>
+        <span class="tag tag-weakness">Key must be truly random</span>
+        <span class="tag tag-weakness">Key can only be used once</span>
+        <span class="tag tag-weakness">Key distribution is hard</span>
+      </div>
+      <p style="margin-top: 8px">These problems make OTP impractical for most use cases. Stream ciphers are the practical approximation.</p>
+    </div>
+  </div>
+
+  <!-- CRYPTANALYSIS -->
+  <div id="tab-cryptanalysis" class="section-content">
+    <div class="section-header">
+      <h2>Cryptanalysis</h2>
+      <span class="badge badge-coral">Attacking ciphers</span>
+    </div>
+    <div class="card">
+      <h3>What is it?</h3>
+      <p>Cryptanalysis is the science of breaking ciphers — recovering plaintext without knowing the key, or recovering the key itself. It is the opposite of cryptography.</p>
+    </div>
+    <div class="card">
+      <h3>Attack types</h3>
+      <table class="ring-table">
+        <tr><th>Attack</th><th>What the attacker has</th><th>Goal</th></tr>
+        <tr><td>Ciphertext-only</td><td>Only the ciphertext</td><td>Recover plaintext or key</td></tr>
+        <tr><td>Known-plaintext</td><td>Some plaintext + ciphertext pairs</td><td>Recover the key</td></tr>
+        <tr><td>Chosen-plaintext</td><td>Can choose plaintexts and get ciphertexts</td><td>Recover the key</td></tr>
+        <tr><td>Chosen-ciphertext</td><td>Can choose ciphertexts and get plaintexts</td><td>Recover the key</td></tr>
+      </table>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Frequency analysis</h3>
+        <p>In English, 'E' is most common (~12.7%). Map frequent ciphertext letters to common plaintext letters. Works on monoalphabetic ciphers.</p>
+        <div class="tag-row"><span class="tag tag-weakness">Breaks Caesar & Affine</span></div>
+      </div>
+      <div class="card">
+        <h3>Brute force</h3>
+        <p>Try all possible keys until the plaintext makes sense. Only works when the key space is small enough.</p>
+        <div class="tag-row"><span class="tag tag-weakness">Breaks Caesar (25 keys)</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Index of coincidence (IoC)</h3>
+      <p>A statistical measure used to determine whether a cipher is monoalphabetic or polyalphabetic. English text has IoC ≈ 0.065. Random text ≈ 0.038. High IoC → likely monoalphabetic.</p>
+    </div>
+    <div class="card">
+      <h3>Which cipher resists which attack?</h3>
+      <table class="ring-table">
+        <tr><th>Cipher</th><th>Brute force</th><th>Frequency analysis</th></tr>
+        <tr><td>Caesar</td><td>Fails (25 keys)</td><td>Fails</td></tr>
+        <tr><td>Affine</td><td>Harder (312 keys)</td><td>Fails</td></tr>
+        <tr><td>Vigenère</td><td>Hard</td><td>Resistant (until Kasiski)</td></tr>
+        <tr><td>Stream cipher</td><td>Infeasible</td><td>Resistant</td></tr>
+        <tr><td>One-time pad</td><td>Impossible</td><td>Impossible</td></tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>

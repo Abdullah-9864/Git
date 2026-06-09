@@ -1,0 +1,437 @@
+<style>
+  :root {
+    --card-bg: var(--color-background-secondary, #ffffff);
+    --primary-text: var(--color-text-primary, #111827);
+    --secondary-text: var(--color-text-secondary, #4b5563);
+    --border-color: var(--color-border-tertiary, #e5e7eb);
+    --border-color-accent: var(--color-border-info, #3b82f6);
+    --radius-lg: var(--border-radius-lg, 12px);
+    --radius-md: var(--border-radius-md, 8px);
+    --font-base: var(--font-sans, system-ui, -apple-system, sans-serif);
+  }
+
+  .wrap { 
+    font-family: var(--font-base); 
+    padding: 1rem; 
+    max-width: 1200px;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  
+  .wrap *, .wrap *::before, .wrap *::after {
+    box-sizing: border-box;
+  }
+
+  .card { 
+    background: var(--card-bg); 
+    border-radius: var(--radius-lg); 
+    padding: 1.25rem; 
+    margin-bottom: 16px; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  
+  .big { 
+    font-size: 18px; 
+    font-weight: 600; 
+    color: var(--primary-text); 
+    margin-bottom: 12px; 
+    letter-spacing: -0.02em;
+  }
+  
+  .muted { 
+    font-size: 13.5px; 
+    color: var(--secondary-text); 
+    line-height: 1.6; 
+  }
+  
+  .tag { 
+    display: inline-block; 
+    padding: 4px 12px; 
+    border-radius: 20px; 
+    font-size: 11.5px; 
+    font-weight: 600; 
+    margin-bottom: 8px; 
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  
+  .tag-b { background: var(--color-background-info, #e0f2fe);    color: var(--color-text-info, #0369a1); }
+  .tag-g { background: var(--color-background-success, #dcfce7); color: var(--color-text-success, #15803d); }
+  .tag-o { background: var(--color-background-warning, #fef3c7); color: var(--color-text-warning, #b45309); }
+  .tag-r { background: var(--color-background-danger, #fee2e2);  color: var(--color-text-danger, #b91c1c); }
+  .tag-p { background: var(--color-background-tertiary, #f3f4f6); color: var(--secondary-text); border: 1px solid var(--color-border-secondary, #d1d5db); }
+  .tag-v { background: #f0e6ff; color: #7c3aed; }
+  
+  /* Responsive Table Container to prevent mobile layout breaking */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 12px 0;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+  }
+
+  table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    font-size: 13px; 
+    min-width: 500px; /* Ensures text doesn't squish excessively on tiny viewports */
+  }
+  
+  th { 
+    background: var(--color-background-tertiary, #f9fafb);
+    color: var(--secondary-text); 
+    font-weight: 600; 
+    padding: 10px 12px; 
+    border-bottom: 1px solid var(--border-color); 
+    text-align: left; 
+  }
+  
+  td { 
+    padding: 10px 12px; 
+    color: var(--primary-text); 
+    border-bottom: 1px solid var(--border-color); 
+    line-height: 1.5; 
+    vertical-align: middle; 
+  }
+  
+  tr:last-child td { border-bottom: none; }
+  
+  .formula { 
+    background: var(--color-background-tertiary, #f3f4f6); 
+    border-left: 4px solid var(--border-color-accent); 
+    padding: 10px 14px; 
+    font-size: 13px; 
+    color: var(--secondary-text); 
+    border-radius: 0 var(--radius-md) var(--radius-md) 0; 
+    margin: 12px 0; 
+    line-height: 1.6; 
+  }
+  
+  .formula span { color: var(--primary-text); font-weight: 600; }
+  
+  hr { border: none; border-top: 1px solid var(--border-color); margin: 1.5rem 0; }
+  
+  .cat-num { 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 32px; 
+    height: 32px; 
+    border-radius: 50%; 
+    font-size: 14px; 
+    font-weight: 700; 
+    flex-shrink: 0; 
+  }
+  
+  .cat-header { 
+    display: flex; 
+    align-items: flex-start; 
+    gap: 12px; 
+    margin-bottom: 12px; 
+  }
+  
+  .eg { 
+    background: var(--color-background-primary, #f9fafb); 
+    border: 1px solid var(--border-color); 
+    border-radius: var(--radius-md); 
+    padding: 12px; 
+    font-size: 13px; 
+    color: var(--secondary-text); 
+    margin-top: 12px; 
+    line-height: 1.6; 
+  }
+  
+  .eg span { color: var(--primary-text); font-weight: 600; }
+  
+  /* Flexbox Grid: Starts as 1 column on mobile, changes to 2 or 3 columns on desktops */
+  .grid2 { 
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    margin-top: 10px; 
+  }
+  
+  .grid-item-link {
+    width: 100%;
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .ratio-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .mini-card { 
+    background: var(--color-background-primary, #f9fafb); 
+    border: 1px solid var(--border-color); 
+    border-radius: var(--radius-md); 
+    padding: 12px; 
+    width: 100%;
+  }
+  
+  .mini-title { 
+    font-size: 13px; 
+    font-weight: 600; 
+    color: var(--primary-text); 
+    margin-bottom: 6px; 
+  }
+  
+  .mini-body { 
+    font-size: 12px; 
+    color: var(--secondary-text); 
+    line-height: 1.6; 
+  }
+
+  /* Responsive Media Queries for Larger Displays */
+  @media (min-width: 576px) {
+    .grid2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .ratio-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .big { font-size: 20px; }
+    .card { padding: 1.5rem; }
+    .grid2 { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="big">6 Types of Financial Statement Analysis</div>
+    <div class="grid2">
+      <div class="grid-item-link" style="background:var(--color-background-info, #e0f2fe);color:var(--color-text-info, #0369a1);">1. Horizontal Analysis</div>
+      <div class="grid-item-link" style="background:var(--color-background-success, #dcfce7);color:var(--color-text-success, #15803d);">2. Vertical Analysis</div>
+      <div class="grid-item-link" style="background:var(--color-background-warning, #fef3c7);color:var(--color-text-warning, #b45309);">3. Trend Analysis</div>
+      <div class="grid-item-link" style="background:var(--color-background-danger, #fee2e2);color:var(--color-text-danger, #b91c1c);">4. Ratio Analysis</div>
+      <div class="grid-item-link" style="background:var(--color-background-tertiary, #f3f4f6);color:var(--secondary-text);border:1px solid var(--color-border-secondary, #d1d5db);">5. Comparative Analysis</div>
+      <div class="grid-item-link" style="background:#f0e6ff;color:#7c3aed;">6. Cash Flow Analysis</div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="card">
+    <div class="cat-header">
+      <div class="cat-num" style="background:var(--color-background-info, #e0f2fe);color:var(--color-text-info, #0369a1);">1</div>
+      <div style="flex: 1;">
+        <span class="tag tag-b">Horizontal Analysis</span>
+        <div class="muted" style="margin-0; font-weight: 500; color: var(--primary-text);">Compare same company across MULTIPLE YEARS — also called Time Series Analysis or Trend % Analysis</div>
+      </div>
+    </div>
+    <div class="muted">Take one year as BASE YEAR and compare all other years against it. Shows growth or decline over time.</div>
+    <div class="formula">
+      <span>Change % = (Current Year − Base Year) ÷ Base Year × 100</span>
+    </div>
+    <div class="eg">
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Item</th><th>2022 (Base)</th><th>2023</th><th>Change %</th><th>2024</th><th>Change %</th></tr></thead>
+          <tbody>
+            <tr><td>Revenue</td><td>400,000</td><td>450,000</td><td><span>+12.5%</span></td><td>500,000</td><td><span>+25%</span></td></tr>
+            <tr><td>Net Profit</td><td>80,000</td><td>90,000</td><td><span>+12.5%</span></td><td>120,000</td><td><span>+50%</span></td></tr>
+            <tr><td>Total Assets</td><td>600,000</td><td>620,000</td><td><span>+3.3%</span></td><td>700,000</td><td><span>+16.7%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      Reading: <span>Revenue grew 25% in 2 years. Profit grew faster (50%) — efficiency improved!</span>
+    </div>
+    <div class="muted" style="margin-top:10px;font-size:12.5px; font-weight: 500;">✓ Best for: Spotting growth trends, identifying problem years, planning future targets</div>
+  </div>
+
+  <hr>
+
+  <div class="card">
+    <div class="cat-header">
+      <div class="cat-num" style="background:var(--color-background-success, #dcfce7);color:var(--color-text-success, #15803d);">2</div>
+      <div style="flex: 1;">
+        <span class="tag tag-g">Vertical Analysis</span>
+        <div class="muted" style="margin:0; font-weight: 500; color: var(--primary-text);">Express every item as % of a BASE FIGURE — also called Common Size Analysis</div>
+      </div>
+    </div>
+    <div class="muted">For Income Statement: every item as % of Revenue. For Balance Sheet: every item as % of Total Assets.</div>
+    <div class="formula">
+      <span>% = (Individual Item ÷ Base Figure) × 100</span>
+    </div>
+    <div class="eg">
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Income Statement Item</th><th>Amount</th><th>% of Revenue</th></tr></thead>
+          <tbody>
+            <tr><td>Revenue (base)</td><td>500,000</td><td><span>100%</span></td></tr>
+            <tr><td>Cost of Goods Sold</td><td>200,000</td><td><span>40%</span></td></tr>
+            <tr><td>Gross Profit</td><td>300,000</td><td><span>60%</span></td></tr>
+            <tr><td>Operating Expenses</td><td>100,000</td><td><span>20%</span></td></tr>
+            <tr><td>Net Profit</td><td>200,000</td><td><span>40%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      Reading: <span>40 paisa out of every Rs.1 of sales is pure profit. 40% goes to cost of goods.</span>
+    </div>
+    <div class="muted" style="margin-top:10px;font-size:12.5px; font-weight: 500;">✓ Best for: Comparing companies of different sizes, seeing cost structure, easy comparison</div>
+  </div>
+
+  <hr>
+
+  <div class="card">
+    <div class="cat-header">
+      <div class="cat-num" style="background:var(--color-background-warning, #fef3c7);color:var(--color-text-warning, #b45309);">3</div>
+      <div style="flex: 1;">
+        <span class="tag tag-o">Trend Analysis</span>
+        <div class="muted" style="margin:0; font-weight: 500; color: var(--primary-text);">Look at patterns over LONG PERIOD (5-10 years) to predict future direction</div>
+      </div>
+    </div>
+    <div class="muted">Similar to horizontal but focuses on the DIRECTION and PATTERN rather than just year to year change. Used to forecast future performance.</div>
+    <div class="formula">
+      <span>Trend % = (Current Year Value ÷ Base Year Value) × 100</span><br>
+      Base year is always = 100
+    </div>
+    <div class="eg">
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Year</th><th>Revenue</th><th>Trend %</th><th>Reading</th></tr></thead>
+          <tbody>
+            <tr><td>2019 (base)</td><td>200,000</td><td><span>100</span></td><td>Starting point</td></tr>
+            <tr><td>2020</td><td>210,000</td><td><span>105</span></td><td>5% above base</td></tr>
+            <tr><td>2021</td><td>230,000</td><td><span>115</span></td><td>Growing steadily</td></tr>
+            <tr><td>2022</td><td>260,000</td><td><span>130</span></td><td>Accelerating</td></tr>
+            <tr><td>2023</td><td>300,000</td><td><span>150</span></td><td>Strong uptrend!</td></tr>
+          </tbody>
+        </table>
+      </div>
+      Reading: <span>Revenue grew 50% over 4 years — consistent upward trend → predict continued growth</span>
+    </div>
+    <div class="muted" style="margin-top:10px;font-size:12.5px; font-weight: 500;">✓ Best for: Long term planning, forecasting, spotting turning points in business performance</div>
+  </div>
+
+  <hr>
+
+  <div class="card">
+    <div class="cat-header">
+      <div class="cat-num" style="background:var(--color-background-danger, #fee2e2);color:var(--color-text-danger, #b91c1c);">4</div>
+      <div style="flex: 1;">
+        <span class="tag tag-r">Ratio Analysis</span>
+        <div class="muted" style="margin:0; font-weight: 500; color: var(--primary-text);">Calculate mathematical relationships between financial figures — most widely used type</div>
+      </div>
+    </div>
+    <div class="muted">Has 5 sub-categories. Each answers a different question about the company.</div>
+    
+    <div class="ratio-grid">
+      <div class="mini-card">
+        <div class="mini-title" style="color:var(--color-text-info, #0369a1);">Liquidity Ratios</div>
+        <div class="mini-body">Can company pay SHORT TERM debts?<br>• Current Ratio<br>• Quick Ratio (Acid Test)<br>• Cash Ratio<br>• Net Working Capital</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-title" style="color:var(--color-text-success, #15803d);">Leverage / Debt Ratios</div>
+        <div class="mini-body">How much DEBT does company have?<br>• Debt to Equity<br>• Debt Ratio<br>• Interest Coverage<br>• Equity Multiplier</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-title" style="color:var(--color-text-warning, #b45309);">Activity / Efficiency Ratios</div>
+        <div class="mini-body">How well are ASSETS being used?<br>• Inventory Turnover<br>• Receivables Turnover<br>• Asset Turnover<br>• Avg Collection Period</div>
+      </div>
+      <div class="mini-card">
+        <div class="mini-title" style="color:var(--color-text-danger, #b91c1c);">Profitability Ratios</div>
+        <div class="mini-body">Is company making PROFIT?<br>• Gross Profit Margin<br>• Net Profit Margin<br>• ROA, ROE, ROI<br>• EBIT Margin</div>
+      </div>
+    </div>
+    <div class="mini-card" style="margin-top:10px;">
+      <div class="mini-title" style="color:#7c3aed;">Market / Valuation Ratios</div>
+      <div class="mini-body">Is the STOCK worth buying? &nbsp;• EPS &nbsp;• P/E Ratio &nbsp;• Dividend Yield &nbsp;• Price to Book</div>
+    </div>
+    <div class="muted" style="margin-top:10px;font-size:12.5px; font-weight: 500;">✓ Best for: Quick health check, comparing with industry standards, identifying weak areas</div>
+  </div>
+
+  <hr>
+
+  <div class="card">
+    <div class="cat-header">
+      <div class="cat-num" style="background:var(--color-background-tertiary, #f3f4f6);color:var(--secondary-text);border:1px solid var(--color-border-secondary, #d1d5db);">5</div>
+      <div style="flex: 1;">
+        <span class="tag tag-p">Comparative Analysis</span>
+        <div class="muted" style="margin:0; font-weight: 500; color: var(--primary-text);">Compare your company against COMPETITORS or INDUSTRY AVERAGE</div>
+      </div>
+    </div>
+    <div class="muted">Also called Cross-Sectional Analysis or Benchmarking. Tells you how your company performs relative to others in the same industry.</div>
+    <div class="eg">
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Ratio</th><th>Your Company</th><th>Competitor A</th><th>Industry Avg</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr><td>Net Profit Margin</td><td>12%</td><td>18%</td><td>15%</td><td><span style="color:var(--color-text-danger, #b91c1c); font-weight: 500;">Below average ✗</span></td></tr>
+            <tr><td>Current Ratio</td><td>2.5</td><td>1.8</td><td>2.0</td><td><span style="color:var(--color-text-success, #15803d); font-weight: 500;">Above average ✓</span></td></tr>
+            <tr><td>Inventory Turnover</td><td>8x</td><td>10x</td><td>9x</td><td><span style="color:var(--color-text-danger, #b91c1c); font-weight: 500;">Below average ✗</span></td></tr>
+            <tr><td>Debt to Equity</td><td>0.4</td><td>0.7</td><td>0.6</td><td><span style="color:var(--color-text-success, #15803d); font-weight: 500;">Better (less debt) ✓</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      Reading: <span>Company is liquid and low debt but less profitable and slower inventory — focus on improving sales efficiency!</span>
+    </div>
+    <div class="muted" style="margin-top:10px;font-size:12.5px; font-weight: 500;">✓ Best for: Benchmarking, competitive positioning, finding where you lag behind</div>
+  </div>
+
+  <hr>
+
+  <div class="card">
+    <div class="cat-header">
+      <div class="cat-num" style="background:#f0e6ff;color:#7c3aed;">6</div>
+      <div style="flex: 1;">
+        <span class="tag tag-v">Cash Flow Analysis</span>
+        <div class="muted" style="margin:0; font-weight: 500; color: var(--primary-text);">Analyze actual CASH MOVEMENTS — profit on paper vs real cash in hand</div>
+      </div>
+    </div>
+    <div class="muted">A company can show profit on income statement but still run out of cash! Cash flow analysis checks if real cash is available for operations, investment, and debt repayment.</div>
+    <div class="formula">
+      Cash flow has 3 sections:<br>
+      <span>Operating Activities</span> — cash from day to day business (selling goods)<br>
+      <span>Investing Activities</span> — cash from buying/selling assets (machinery, buildings)<br>
+      <span>Financing Activities</span> — cash from loans, issuing shares, paying dividends
+    </div>
+    <div class="eg">
+      <div class="table-responsive">
+        <table>
+          <thead><tr><th>Section</th><th>Amount</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td>Operating Cash Flow</td><td><span style="color:var(--color-text-success, #15803d);">+300,000</span></td><td>Core business generating good cash ✓</td></tr>
+            <tr><td>Investing Cash Flow</td><td><span style="color:var(--color-text-danger, #b91c1c);">-150,000</span></td><td>Buying new machinery — investing in growth</td></tr>
+            <tr><td>Financing Cash Flow</td><td><span style="color:var(--color-text-danger, #b91c1c);">-50,000</span></td><td>Repaying loans — reducing debt</td></tr>
+            <tr><td><b>Net Cash Change</b></td><td><span style="color:var(--color-text-success, #15803d); font-weight:700;">+100,000</span></td><td>Overall cash increased ✓ Healthy!</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="muted" style="margin-top:10px;font-size:12.5px; font-weight: 500;">✓ Best for: Checking if profit is real cash or just accounting entries, assessing survival ability</div>
+  </div>
+
+  <hr>
+
+  <div class="card" style="border:1.5px solid var(--border-color-accent); shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <div class="big">Complete summary — all 6 at a glance</div>
+    <div class="table-responsive">
+      <table>
+        <thead><tr><th>#</th><th>Type</th><th>Question it answers</th><th>Compares</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><b>Horizontal</b></td><td>Is the company growing year by year?</td><td>Same company, different years</td></tr>
+          <tr><td>2</td><td><b>Vertical</b></td><td>What % of revenue goes where?</td><td>Items vs total within same year</td></tr>
+          <tr><td>3</td><td><b>Trend</b></td><td>What direction is the company heading?</td><td>Same company over 5-10 years</td></tr>
+          <tr><td>4</td><td><b>Ratio</b></td><td>How liquid, profitable, efficient is it?</td><td>Financial figures against each other</td></tr>
+          <tr><td>5</td><td><b>Comparative</b></td><td>How do we rank vs competitors?</td><td>Company vs industry / competitors</td></tr>
+          <tr><td>6</td><td><b>Cash Flow</b></td><td>Is real cash available or just paper profit?</td><td>Cash in vs cash out</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
